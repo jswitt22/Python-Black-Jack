@@ -32,7 +32,7 @@ quitButton = pygwidgets.TextButton(window, (880, 530),
                             'Quit', width=100, height=45)
 
 # 5 - Initialize variables
-oGame = Game(window)
+oGame = Game(window,5)
 
 # 6 - Loop forever
 while True:

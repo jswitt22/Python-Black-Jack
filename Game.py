@@ -6,18 +6,28 @@ from Card import *
 from Constants import *
 
 class Game():
-    CARD_OFFSET = 110
+    PLAYER_OFFSET = 110
+    CARD_OFFSET_X = -30
+    CARD_OFFSET_Y = -30
+    DEALER_CARDS_TOP = 100
     CARDS_TOP = 300
-    PLAYER1_LEFT = 75
-    NCARDS = 8
+    DEALER_LEFT = 460
+    PLAYER_LEFT_LIST = [127, 293, 460, 627, 793, DEALER_LEFT]
+    PLAYER_LIST = ['Player 1', 'Player 2', 'Player 3', 'Player 4', 'Player 5', 'Dealer']
+    NCARDS = 2
     POINTS_CORRECT = 15
     POINTS_INCORRECT = 10
     WHITE = (255, 255, 255)
 
-    def __init__(self, window):
+    def __init__(self, window, numberOfPlayers=5):
         self.window = window
         self.oDeck = Deck(self.window)
         self.score = 100
+        self.playerList = []
+        for i in range(numberOfPlayers):
+            self.playerList.append(Game.PLAYER_LIST[i])
+        self.playerList.append('Dealer')
+        self.cardsToDeal = (numberOfPlayers + 1)*Game.NCARDS
         self.scoreText = pygwidgets.DisplayText(window, (450, 164),
                                    'Score: ' + str(self.score),
                                     fontSize=36, textColor=Game.WHITE,
@@ -31,12 +41,16 @@ class Game():
         self.winnerSound = pygame.mixer.Sound("sounds/ding.wav")
         self.cardShuffleSound = pygame.mixer.Sound("sounds/cardShuffle.wav")
 
-        self.cardXPositionsList = []
-        thisLeft = Game.PLAYER1_LEFT
-        # Calculate the x positions of all cards, once
-        for cardNum in range(Game.NCARDS):
-            self.cardXPositionsList.append(thisLeft)
-            thisLeft = thisLeft + Game.CARD_OFFSET
+        self.cardPositionsList = []
+        # Calculate the x and y positions of all cards, once
+        for cardRound in range(1, Game.NCARDS + 1):
+            for player in self.playerList:
+                if player == 'Dealer':
+                    thisTop = Game.DEALER_CARDS_TOP
+                else:
+                    thisTop = Game.CARDS_TOP + Game.CARD_OFFSET_Y*(cardRound - 1)
+                thisLeft = Game.PLAYER_LEFT_LIST[Game.PLAYER_LIST.index(player)] + Game.CARD_OFFSET_X*(cardRound - 1)
+                self.cardPositionsList.append((thisLeft, thisTop))
 
         self.reset()  # start a round of the game
 
@@ -44,13 +58,14 @@ class Game():
         self.cardShuffleSound.play()
         self.cardList = []
         self.oDeck.shuffle()
-        for cardIndex in range(0, Game.NCARDS):  # deal out cards
+        for cardIndex in range(self.cardsToDeal):  # deal out cards
             oCard = self.oDeck.getCard()
             self.cardList.append(oCard)
-            thisXPosition = self.cardXPositionsList[cardIndex]
-            oCard.setLoc((thisXPosition, Game.CARDS_TOP))
+            thisPosition = self.cardPositionsList[cardIndex]
+            oCard.setLoc((thisPosition[0], thisPosition[1]))
 
-        self.showCard(0)
+        for cardIndex in range(self.cardsToDeal):
+            self.showCard(cardIndex)
         self.cardNumber = 0
         self.currentCardName, self.currentCardValue = \
                                          self.getCardNameAndValue(self.cardNumber)
@@ -97,7 +112,7 @@ class Game():
 
         self.currentCardValue = nextCardValue  # set up for the next card 
 
-        done = (self.cardNumber == (Game.NCARDS - 1))  # did we reach the last card?
+        done = (self.cardNumber == (self.cardsToDeal - 1))  # did we reach the last card?
         return done
 
     def draw(self):
