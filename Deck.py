@@ -40,6 +40,7 @@ class Deck():
         # Put a card back into the deck
         self.playingDeckList.insert(0, oCard)
 
+# BlackJackDeck subclass of Deck
 
 class BlackJackDeck(Deck):
     # This dict maps each card rank to a value for a standard deck
