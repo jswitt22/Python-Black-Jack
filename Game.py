@@ -3,11 +3,12 @@
 import pygwidgets
 from Deck import *
 from Card import *
+from Constants import *
 
 class Game():
     CARD_OFFSET = 110
     CARDS_TOP = 300
-    CARDS_LEFT = 75
+    PLAYER1_LEFT = 75
     NCARDS = 8
     POINTS_CORRECT = 15
     POINTS_INCORRECT = 10
@@ -31,7 +32,7 @@ class Game():
         self.cardShuffleSound = pygame.mixer.Sound("sounds/cardShuffle.wav")
 
         self.cardXPositionsList = []
-        thisLeft = Game.CARDS_LEFT
+        thisLeft = Game.PLAYER1_LEFT
         # Calculate the x positions of all cards, once
         for cardNum in range(Game.NCARDS):
             self.cardXPositionsList.append(thisLeft)
