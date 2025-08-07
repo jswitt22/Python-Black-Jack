@@ -1,7 +1,6 @@
 #  Game class
 
 import pygwidgets
-from Constants import *
 from Deck import *
 from Card import *
 
@@ -12,6 +11,7 @@ class Game():
     NCARDS = 8
     POINTS_CORRECT = 15
     POINTS_INCORRECT = 10
+    WHITE = (255, 255, 255)
 
     def __init__(self, window):
         self.window = window
@@ -19,12 +19,12 @@ class Game():
         self.score = 100
         self.scoreText = pygwidgets.DisplayText(window, (450, 164),
                                    'Score: ' + str(self.score),
-                                    fontSize=36, textColor=WHITE,
+                                    fontSize=36, textColor=Game.WHITE,
                                     justified='right')
 
         self.messageText = pygwidgets.DisplayText(window, (50, 460),
                                     '', width=900, justified='center',
-                                    fontSize=36, textColor=WHITE)
+                                    fontSize=36, textColor=Game.WHITE)
 
         self.loserSound = pygame.mixer.Sound("sounds/loser.wav")
         self.winnerSound = pygame.mixer.Sound("sounds/ding.wav")
