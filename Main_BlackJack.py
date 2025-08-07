@@ -26,8 +26,10 @@ newGameButton = pygwidgets.TextButton(window, (20, 530),
                             'New Game', width=100, height=45)
 higherButton = pygwidgets.TextButton(window, (540, 520),
                             'Higher', width=120, height=55)
+higherButton.disable()
 lowerButton = pygwidgets.TextButton(window, (340, 520),
                             'Lower', width=120, height=55)
+lowerButton.disable()
 quitButton = pygwidgets.TextButton(window, (880, 530),
                             'Quit', width=100, height=45)
 
@@ -46,21 +48,15 @@ while True:
             sys.exit()
 
         if newGameButton.handleEvent(event):
-            oGame.reset()
+            print('clicked new game')
             lowerButton.enable()
             higherButton.enable()
 
         if higherButton.handleEvent(event):
-            gameOver = oGame.hitHigherOrLower(HIGHER)
-            if gameOver:
-                higherButton.disable()
-                lowerButton.disable()
+            print('clicked higher')
 
         if lowerButton.handleEvent(event):
-            gameOver = oGame.hitHigherOrLower(LOWER)
-            if gameOver:
-                higherButton.disable()
-                lowerButton.disable()
+            print('clicked lower')
 
     # 8 - Do any "per frame" actions
 
