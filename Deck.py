@@ -54,7 +54,7 @@ class BlackJackShoe(Deck):
         self.playingDeckList = []
         for deckNumber in range(numberOfDecks):
             for suit in Deck.SUIT_TUPLE:
-                for rank, value in BlackJackDeck.BLACKJACK_DICT.items():
+                for rank, value in BlackJackShoe.BLACKJACK_DICT.items():
                     oCard = Card(window, rank, suit, value)
                     self.startingDeckList.append(oCard)
 
@@ -82,9 +82,9 @@ if __name__ == '__main__':
 
     #  Optional code to show blackjack deck
     print('BlackJack Deck:')
-    oBlackjackDeck = BlackJackDeck(window)
+    oBlackjackDeck = BlackJackShoe(window)
 
-    for i in range(52*BlackJackDeck.BLACKJACK_STANDARD_DECKS):
+    for i in range(52*BlackJackShoe.BLACKJACK_STANDARD_DECKS):
         oCard = oBlackjackDeck.getCard()
         print('Name: ', oCard.getName(), '  Value:', oCard.getValue())
 
