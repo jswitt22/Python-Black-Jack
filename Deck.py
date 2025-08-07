@@ -42,7 +42,7 @@ class Deck():
 
 # BlackJackDeck subclass of Deck
 
-class BlackJackDeck(Deck):
+class BlackJackShoe(Deck):
     # This dict maps each card rank to a value for a standard deck
     BLACKJACK_DICT = {'Ace':1, '2':2, '3':3, '4':4, '5':5,
                                   '6':6, '7':7, '8': 8, '9':9, '10':10,
