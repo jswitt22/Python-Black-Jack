@@ -60,6 +60,11 @@ class BlackJackShoe(Deck):
 
         self.shuffle()
 
+    def __str__(self):
+        string = f"""The Shoe has {len(self.playingDeckList)} cards remaining. 
+        """
+        return string
+
 
 
 if __name__ == '__main__':
