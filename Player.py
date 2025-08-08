@@ -21,6 +21,8 @@ class Player:
         self.score = 0
         self.money = money
 
+        self.cards = []
+
     def __str__(self):
         string = f"""{self.player} info:
  Location: {str(self.loc)}
@@ -28,6 +30,10 @@ class Player:
  Money: ${str(self.money)}
 """
         return string
+
+    def dealCard(self, oCard):
+        self.cards.append(oCard)
+        self.score += oCard.getValue()
 
 if __name__ == '__main__':
     # Main code to test the Player class

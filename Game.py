@@ -20,13 +20,19 @@ class Game():
         oDealer = Player(window, DEALER)
         self.playerList.append(oDealer)
 
-        # Debug
-        for player in self.playerList:
-            print(player)
-        print(self.oShoe)
+        self.printGameState()
+
+        self.startRound()
+        self.printGameState()
 
     def reset(self):  # this method is called when a new shoe starts
         pass
+
+    def startRound(self):
+        for i in range(2):
+            for player in self.playerList:
+                oCard = self.oShoe.getCard()
+                player.dealCard(oCard)
 
     def getCardNameAndValue(self, index):
         pass
@@ -36,3 +42,9 @@ class Game():
 
     def draw(self):
         pass
+
+    def printGameState(self):
+        # Debug
+        for player in self.playerList:
+            print(player)
+        print(self.oShoe)
