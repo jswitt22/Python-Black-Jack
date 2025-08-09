@@ -45,15 +45,32 @@ class Player:
         numberOfCards = len(self.cards)
         if self.player != DEALER:
             oCard.reveal()
-            cardLocation = (self.loc[0] + CARD_OFFSET_X*numberOfCards, self.loc[1] + CARD_OFFSET_Y*numberOfCards)
+            cardLocation = (self.loc[0], self.loc[1] + CARD_OFFSET_Y*numberOfCards)
         else:
             if numberOfCards > 0:
                 oCard.reveal()
             cardLocation = (self.loc[0] + CARD_OFFSET_X * numberOfCards, self.loc[1])
         oCard.setLoc(cardLocation)
         self.cards.append(oCard)
-        self.score += oCard.getValue()
+        self._setScore(self.score + oCard.getValue ())
+
+    def revealCards(self):
+        for oCard in self.cards:
+            oCard.reveal()
+
+    def getNumberOfCards(self):
+        return len(self.cards)
+
+    def getScore(self):
+        return self.score
+
+    def _setScore(self, score):
+        self.score = score
         self.oScoreText.setText(str(self.score))
+
+    def deleteCards(self):
+        self.cards = []
+        self._setScore(0)
 
     def draw(self):
         for card in self.cards:

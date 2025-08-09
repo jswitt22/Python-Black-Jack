@@ -26,15 +26,18 @@ readyButton = pygwidgets.TextButton(window, (20, 530),
                             'Ready', width=100, height=45)
 hitButton = pygwidgets.TextButton(window, (340, 520),
                             'Hit', width=120, height=55)
-hitButton.disable()
 standButton = pygwidgets.TextButton(window, (540, 520),
                             'Stand', width=120, height=55)
-standButton.disable()
 quitButton = pygwidgets.TextButton(window, (880, 530),
                             'Quit', width=100, height=45)
+resetButton = pygwidgets.TextButton(window, (20, 20),
+                                    'Clear Cards', width=120, height=55)
+revealButton = pygwidgets.TextButton(window, (860, 20),
+                                     'Reveal', width=120, height=55)
 
 # 5 - Initialize variables
-oGame = Game(window, numberOfPlayers=5)
+oGame = Game(window, numberOfPlayers=2)
+lastFrameGameState = ''
 
 # 6 - Loop forever
 while True:
@@ -62,7 +65,48 @@ while True:
             print('clicked Stand')
             oGame.nextPlayer()
 
+        if resetButton.handleEvent(event):
+            print('clicked Reset')
+            oGame.nextRound()
+
+        if revealButton.handleEvent(event):
+            print('clicked Reveal')
+            oGame.revealDealer()
+
     # 8 - Do any "per frame" actions
+    thisFrameGameState = oGame.getGameState()
+    if thisFrameGameState != lastFrameGameState:
+        if thisFrameGameState == Game.BETTING:
+            standButton.disable()
+            hitButton.disable()
+            readyButton.enable()
+            resetButton.disable()
+            revealButton.disable()
+        if thisFrameGameState == Game.DEALING:
+            standButton.disable()
+            hitButton.disable()
+            readyButton.disable()
+            resetButton.disable()
+            revealButton.disable()
+        if thisFrameGameState == Game.PLAYING:
+            standButton.enable()
+            hitButton.enable()
+            readyButton.disable()
+            resetButton.disable()
+            revealButton.disable()
+        if thisFrameGameState == Game.ROUND_OVER:
+            standButton.disable()
+            hitButton.disable()
+            readyButton.disable()
+            resetButton.enable()
+            revealButton.disable()
+        if thisFrameGameState == Game.REVEALING:
+            standButton.disable()
+            hitButton.disable()
+            readyButton.disable()
+            resetButton.enable()
+            revealButton.enable()
+    lastFrameGameState = oGame.getGameState()
 
     # 9 - Clear the window before drawing it again
     background.draw()
@@ -75,6 +119,8 @@ while True:
     hitButton.draw()
     standButton.draw()
     quitButton.draw()
+    resetButton.draw()
+    revealButton.draw()
 
     # 11 - Update the window
     pygame.display.update()
