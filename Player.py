@@ -1,5 +1,6 @@
 # Player class
 
+from pygwidgets import *
 from Card import *
 from Constants import *
 
@@ -11,6 +12,7 @@ class Player:
         self.window = window
         self.player = player
 
+
         if self.player == DEALER:
             top = Player.DEALER_CARDS_TOP
         else:
@@ -20,6 +22,8 @@ class Player:
 
         self.score = 0
         self.money = money
+
+        self.oScoreText = pygwidgets.DisplayText(self.window, (self.loc[0]+40, self.loc[1]+120), str(self.score), textColor=BLACK, justified='center')
 
         self.cards = []
 
@@ -49,10 +53,12 @@ class Player:
         oCard.setLoc(cardLocation)
         self.cards.append(oCard)
         self.score += oCard.getValue()
+        self.oScoreText.setText(str(self.score))
 
     def draw(self):
         for card in self.cards:
             card.draw()
+        self.oScoreText.draw()
 
 if __name__ == '__main__':
     # Main code to test the Player class
