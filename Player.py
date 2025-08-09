@@ -4,8 +4,8 @@ from Card import *
 from Constants import *
 
 class Player:
-    DEALER_CARDS_TOP = 100
-    CARDS_TOP = 300
+    DEALER_CARDS_TOP = 50
+    CARDS_TOP = 350
 
     def __init__(self, window, player, money=500):
         self.window = window
@@ -24,16 +24,35 @@ class Player:
         self.cards = []
 
     def __str__(self):
+        cardStringList = []
+        for card in self.cards:
+            cardStringList.append(str(card))
+        cardString = ', '.join(cardStringList)
+
         string = f"""{self.player} info:
  Location: {str(self.loc)}
+ Cards: {cardString}
  Score: {str(self.score)} 
  Money: ${str(self.money)}
 """
         return string
 
     def dealCard(self, oCard):
+        numberOfCards = len(self.cards)
+        if self.player != DEALER:
+            oCard.reveal()
+            cardLocation = (self.loc[0] + CARD_OFFSET_X*numberOfCards, self.loc[1] + CARD_OFFSET_Y*numberOfCards)
+        else:
+            if numberOfCards > 0:
+                oCard.reveal()
+            cardLocation = (self.loc[0] + CARD_OFFSET_X * numberOfCards, self.loc[1])
+        oCard.setLoc(cardLocation)
         self.cards.append(oCard)
         self.score += oCard.getValue()
+
+    def draw(self):
+        for card in self.cards:
+            card.draw()
 
 if __name__ == '__main__':
     # Main code to test the Player class
@@ -48,7 +67,7 @@ if __name__ == '__main__':
     window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
     oPlayerList = []
-    for player in Player.PLAYER_LIST:
+    for player in PLAYER_LIST:
         oPlayer = Player(window, player)
         oPlayerList.append(oPlayer)
 

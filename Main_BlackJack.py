@@ -22,19 +22,19 @@ window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 # 4 - Load assets: image(s), sounds,  etc.
 background = pygwidgets.Image(window, (0, 0),
                             'images/background.png')
-newGameButton = pygwidgets.TextButton(window, (20, 530),
-                            'New Game', width=100, height=45)
-higherButton = pygwidgets.TextButton(window, (540, 520),
-                            'Higher', width=120, height=55)
-higherButton.disable()
-lowerButton = pygwidgets.TextButton(window, (340, 520),
-                            'Lower', width=120, height=55)
-lowerButton.disable()
+readyButton = pygwidgets.TextButton(window, (20, 530),
+                            'Ready', width=100, height=45)
+hitButton = pygwidgets.TextButton(window, (340, 520),
+                            'Hit', width=120, height=55)
+hitButton.disable()
+standButton = pygwidgets.TextButton(window, (540, 520),
+                            'Stand', width=120, height=55)
+standButton.disable()
 quitButton = pygwidgets.TextButton(window, (880, 530),
                             'Quit', width=100, height=45)
 
 # 5 - Initialize variables
-oGame = Game(window, numberOfPlayers=1)
+oGame = Game(window, numberOfPlayers=5)
 
 # 6 - Loop forever
 while True:
@@ -47,16 +47,16 @@ while True:
             pygame.quit()
             sys.exit()
 
-        if newGameButton.handleEvent(event):
-            print('clicked new game')
-            lowerButton.enable()
-            higherButton.enable()
+        if readyButton.handleEvent(event):
+            print('clicked Ready')
+            standButton.enable()
+            hitButton.enable()
 
-        if higherButton.handleEvent(event):
-            print('clicked higher')
+        if hitButton.handleEvent(event):
+            print('clicked Hit')
 
-        if lowerButton.handleEvent(event):
-            print('clicked lower')
+        if standButton.handleEvent(event):
+            print('clicked Stand')
 
     # 8 - Do any "per frame" actions
 
@@ -67,9 +67,9 @@ while True:
     # Tell the game to draw itself
     oGame.draw()
     # Draw remaining user interface components
-    newGameButton.draw()
-    higherButton.draw()
-    lowerButton.draw()
+    readyButton.draw()
+    hitButton.draw()
+    standButton.draw()
     quitButton.draw()
 
     # 11 - Update the window

@@ -7,8 +7,6 @@ from Card import *
 from Constants import *
 
 class Game():
-    CARD_OFFSET_X = -30
-    CARD_OFFSET_Y = -30
 
     def __init__(self, window, numberOfPlayers=1):
         self.oShoe = BlackJackShoe(window)
@@ -41,7 +39,8 @@ class Game():
         pass
 
     def draw(self):
-        pass
+        for player in self.playerList:
+            player.draw()
 
     def printGameState(self):
         # Debug

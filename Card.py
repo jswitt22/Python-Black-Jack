@@ -47,3 +47,6 @@ class Card():
     def draw(self):
         self.images.draw()
 
+    def __str__(self):
+        return self.cardName
+
