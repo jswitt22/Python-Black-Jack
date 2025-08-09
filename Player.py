@@ -23,7 +23,7 @@ class Player:
         self.score = 0
         self.money = money
 
-        self.oScoreText = pygwidgets.DisplayText(self.window, (self.loc[0]+40, self.loc[1]+120), str(self.score), textColor=BLACK, justified='center')
+        self.oScoreText = pygwidgets.DisplayText(self.window, (self.loc[0]+CARD_WIDTH/2, self.loc[1]+CARD_HEIGHT), str(self.score), textColor=BLACK, fontSize=SCORE_FONT_SIZE)
 
         self.cards = []
 

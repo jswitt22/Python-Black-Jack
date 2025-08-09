@@ -1,10 +1,11 @@
 # Constants
 
+# Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+
 HIGHER = 'higher'
 LOWER = 'lower'
-
 PLAYER1 = 'Player 1'
 PLAYER2 = 'Player 2'
 PLAYER3 = 'Player 3'
@@ -12,9 +13,16 @@ PLAYER4 = 'Player 4'
 PLAYER5 = 'Player 5'
 DEALER = 'Dealer'
 
+# Player locations
 DEALER_LEFT = 460
 PLAYER_LEFT_LIST = [127, 293, 460, 627, 793, DEALER_LEFT]
 PLAYER_LIST = [PLAYER1, PLAYER2, PLAYER3, PLAYER4, PLAYER5, DEALER]
 
+# Card spacing
+CARD_WIDTH = 80
+CARD_HEIGHT = 120
 CARD_OFFSET_X = -30
 CARD_OFFSET_Y = -30
+
+# Fonts
+SCORE_FONT_SIZE = 30

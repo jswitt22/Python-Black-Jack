@@ -9,6 +9,8 @@ from Constants import *
 class Game():
 
     def __init__(self, window, numberOfPlayers=1):
+        self.window = window
+
         self.oShoe = BlackJackShoe(window)
 
         self.oPlayerList = []
@@ -19,6 +21,9 @@ class Game():
         self.oPlayerList.append(oDealer)
 
         self.currentPlayerIndex = 0
+
+        self.oPlayerIndicator = pygwidgets.DisplayText(self.window, value='^', textColor=BLACK, fontSize=SCORE_FONT_SIZE)
+        self.updateIndicator()
 
         self.printGameState()
 
@@ -41,6 +46,12 @@ class Game():
             self.currentPlayerIndex = 0
         else:
             self.currentPlayerIndex += 1
+        self.updateIndicator()
+
+    def updateIndicator(self):
+        indicatorX = self.oPlayerList[self.currentPlayerIndex].loc[0] + CARD_WIDTH/2
+        indicatorY = self.oPlayerList[self.currentPlayerIndex].loc[1] + CARD_HEIGHT + SCORE_FONT_SIZE/1.5
+        self.oPlayerIndicator.setLoc((indicatorX, indicatorY))
 
     def getCardNameAndValue(self, index):
         pass
@@ -51,6 +62,7 @@ class Game():
     def draw(self):
         for oPlayer in self.oPlayerList:
             oPlayer.draw()
+        self.oPlayerIndicator.draw()
 
     def printGameState(self):
         # Debug
