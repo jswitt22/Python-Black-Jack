@@ -70,7 +70,6 @@ class Game():
         self.updateIndicator()
 
     def revealDealer(self):
-        DealerNumberOfCards = self.oPlayerList[self.numberOfPlayers].getNumberOfCards()
         DealerScore = self.oPlayerList[self.numberOfPlayers].getScore()
         if not self.dealerRevealed:
             self.oPlayerList[self.numberOfPlayers].revealCards()
@@ -78,6 +77,7 @@ class Game():
         else:
             if DealerScore < 17:
                 self.dealOneCard()
+                DealerScore = self.oPlayerList[self.numberOfPlayers].getScore()
 
         if DealerScore >= 17:
             self.nextPlayer()
