@@ -15,8 +15,10 @@ class Player:
 
         if self.player == DEALER:
             top = Player.DEALER_CARDS_TOP
+            self.revealed = False
         else:
             top = Player.CARDS_TOP
+            self.revealed = True
         left = PLAYER_LEFT_LIST[PLAYER_LIST.index(self.player)]
         self.loc = (left, top)
 
@@ -57,6 +59,8 @@ class Player:
     def revealCards(self):
         for oCard in self.cards:
             oCard.reveal()
+        self.revealed = True
+        self._setScore(self.score)
 
     def getNumberOfCards(self):
         return len(self.cards)
@@ -66,11 +70,17 @@ class Player:
 
     def _setScore(self, score):
         self.score = score
-        self.oScoreText.setText(str(self.score))
+        if self.revealed:
+            self.oScoreText.setText(str(self.score))
+        elif len(self.cards) >= 2:
+            hiddenScore = self.cards[1].getValue()
+            self.oScoreText.setText(str(hiddenScore))
 
     def deleteCards(self):
         self.cards = []
         self._setScore(0)
+        if self.player == DEALER:
+            self.revealed = False
 
     def draw(self):
         for card in self.cards:
