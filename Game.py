@@ -11,16 +11,15 @@ class Game():
     def __init__(self, window, numberOfPlayers=1):
         self.oShoe = BlackJackShoe(window)
 
-        self.playerList = []
+        self.oPlayerList = []
         for playerIndex in range(numberOfPlayers):
             oPlayer = Player(window, PLAYER_LIST[playerIndex])
-            self.playerList.append(oPlayer)
+            self.oPlayerList.append(oPlayer)
         oDealer = Player(window, DEALER)
-        self.playerList.append(oDealer)
+        self.oPlayerList.append(oDealer)
 
-        self.printGameState()
+        self.currentPlayerIndex = 0
 
-        self.startRound()
         self.printGameState()
 
     def reset(self):  # this method is called when a new shoe starts
@@ -28,9 +27,20 @@ class Game():
 
     def startRound(self):
         for i in range(2):
-            for player in self.playerList:
+            for oPlayer in self.oPlayerList:
                 oCard = self.oShoe.getCard()
-                player.dealCard(oCard)
+                oPlayer.dealCard(oCard)
+        self.printGameState()
+
+    def dealOneCard(self):
+        cardToDeal = self.oShoe.getCard()
+        self.oPlayerList[self.currentPlayerIndex].dealCard(cardToDeal)
+
+    def nextPlayer(self):
+        if self.currentPlayerIndex == len(self.oPlayerList):
+            self.currentPlayerIndex = 0
+        else:
+            self.currentPlayerIndex += 1
 
     def getCardNameAndValue(self, index):
         pass
@@ -39,11 +49,11 @@ class Game():
         pass
 
     def draw(self):
-        for player in self.playerList:
-            player.draw()
+        for oPlayer in self.oPlayerList:
+            oPlayer.draw()
 
     def printGameState(self):
         # Debug
-        for player in self.playerList:
-            print(player)
+        for oPlayer in self.oPlayerList:
+            print(oPlayer)
         print(self.oShoe)

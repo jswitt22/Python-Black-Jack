@@ -51,12 +51,16 @@ while True:
             print('clicked Ready')
             standButton.enable()
             hitButton.enable()
+            readyButton.disable()
+            oGame.startRound()
 
         if hitButton.handleEvent(event):
             print('clicked Hit')
+            oGame.dealOneCard()
 
         if standButton.handleEvent(event):
             print('clicked Stand')
+            oGame.nextPlayer()
 
     # 8 - Do any "per frame" actions
 
