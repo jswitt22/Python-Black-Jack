@@ -49,7 +49,7 @@ dealButtonLeft = revealButtonLeft - DEAL_BUTTON_WIDTH - MARGIN
 dealButton = pygwidgets.TextButton(window, (dealButtonLeft, TOP_BUTTON_Y),
                                      'Deal', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
 checkDealerButton = pygwidgets.TextButton(window, (WINDOW_CENTER_X - STANDARD_BUTTON_WIDTH/2, TOP_BUTTON_Y),
-                                     'Is Anyone Home?', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+                                     'Is Anyone Home?', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT) # TODO - put this button in a better place
 checkDealerButton.disable()
 checkDealerButton.hide()
 
