@@ -20,6 +20,8 @@ class Game():
     DEAL_SOUND = pygame.mixer.Sound('sounds/cardFlip.wav')
     SHUFFLE_SOUND = pygame.mixer.Sound('sounds/cardShuffle.wav')
     WIN_SOUND = pygame.mixer.Sound('sounds/ding.wav')
+    # Debug
+    DEALER_CHEATS = True
 
     def __init__(self, window, numberOfPlayers=1):
         self.window = window
@@ -30,7 +32,10 @@ class Game():
         for playerIndex in range(numberOfPlayers):
             oPlayer = Player(window, PLAYER_LIST[playerIndex])
             self.oPlayerList.append(oPlayer)
-        oDealer = Player(window, DEALER)
+        if Game.DEALER_CHEATS:
+            oDealer = Cheater(window, DEALER)
+        else:
+            oDealer = Player(window, DEALER)
         self.oPlayerList.append(oDealer)
 
         # Game variables

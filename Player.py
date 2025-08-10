@@ -120,6 +120,18 @@ class Player:
         self.centerText(self.oScoreText)
         self.oScoreText.draw()
 
+class Cheater(Player):
+
+    def dealCard(self, oCard):
+        numberOfCards = len(self.cards)
+        card1 = {'Rank': 'Jack', 'Suit': 'Spades', 'Value': 10}
+        card2 = {'Rank': 'Ace', 'Suit': 'Spades', 'Value': 1}
+        if numberOfCards == 0:
+            cardToDeal = Card(self.window, card1['Rank'], card1['Suit'], card1['Value'])
+        else:
+            cardToDeal = Card(self.window, card2['Rank'], card2['Suit'], card2['Value'])
+        super().dealCard(cardToDeal)
+
 if __name__ == '__main__':
     # Main code to test the Player class
 
@@ -136,6 +148,9 @@ if __name__ == '__main__':
     for player in PLAYER_LIST:
         oPlayer = Player(window, player)
         oPlayerList.append(oPlayer)
+
+    oCheater = Cheater(window, PLAYER1)
+    oPlayerList.append(oCheater)
 
     for oPlayer in oPlayerList:
         print(oPlayer)
