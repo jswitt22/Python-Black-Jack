@@ -47,12 +47,12 @@ class Game():
     def dealOneCard(self):
         cardToDeal = self.oShoe.getCard()
         self.oPlayerList[self.currentPlayerIndex].dealCard(cardToDeal)
-        if self.gameState == Game.PLAYING:
+        if self.gameState == Game.DEALING:
+            self.nextPlayer()
+        else:
             currentPlayerScore = self.oPlayerList[self.currentPlayerIndex].getScore()
             if currentPlayerScore >= 21:
                 self.nextPlayer()
-        else:
-            self.nextPlayer()
 
     def nextPlayer(self):
         if self.gameState == Game.DEALING:
