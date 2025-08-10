@@ -77,6 +77,7 @@ while True:
 
         if dealButton.handleEvent(event):
             print('clicked Deal')
+            oGame.dealOneCard()
 
     # 8 - Do any "per frame" actions
     thisFrameGameState = oGame.getGameState()

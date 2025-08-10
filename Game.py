@@ -43,31 +43,34 @@ class Game():
 
     def startRound(self):
         self.setGameState(Game.DEALING)
-        self.currentPlayerIndex = 0
-        self.updateIndicator()
-        for i in range(2):
-            for oPlayer in self.oPlayerList:
-                oCard = self.oShoe.getCard()
-                oPlayer.dealCard(oCard)
-        self.setGameState(Game.PLAYING)
-        self.printGameState()
 
     def dealOneCard(self):
         cardToDeal = self.oShoe.getCard()
         self.oPlayerList[self.currentPlayerIndex].dealCard(cardToDeal)
-        currentPlayerScore = self.oPlayerList[self.currentPlayerIndex].getScore()
-        if currentPlayerScore >= 21:
+        if self.gameState == Game.PLAYING:
+            currentPlayerScore = self.oPlayerList[self.currentPlayerIndex].getScore()
+            if currentPlayerScore >= 21:
+                self.nextPlayer()
+        else:
             self.nextPlayer()
 
     def nextPlayer(self):
-        if self.currentPlayerIndex == len(self.oPlayerList)-1:
-            self.currentPlayerIndex = 0
-            self.setGameState(Game.ROUND_OVER)
-        else:
-            self.currentPlayerIndex += 1
+        if self.gameState == Game.DEALING:
             if self.currentPlayerIndex == len(self.oPlayerList)-1:
-                self.setGameState(Game.REVEALING)
-        self.updateIndicator()
+                self.currentPlayerIndex = 0
+                if self.oPlayerList[self.currentPlayerIndex].getNumberOfCards() == 2:
+                    self.setGameState(Game.PLAYING)
+            else:
+                self.currentPlayerIndex += 1
+        else:
+            if self.currentPlayerIndex == len(self.oPlayerList)-1:
+                self.currentPlayerIndex = 0
+                self.setGameState(Game.ROUND_OVER)
+            else:
+                self.currentPlayerIndex += 1
+                if self.currentPlayerIndex == len(self.oPlayerList)-1:
+                    self.setGameState(Game.REVEALING)
+            self.updateIndicator()
 
     def revealDealer(self):
         DealerScore = self.oPlayerList[self.numberOfPlayers].getScore()
