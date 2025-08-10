@@ -52,6 +52,7 @@ checkDealerButton = pygwidgets.TextButton(window, (WINDOW_CENTER_X - STANDARD_BU
                                      'Is Anyone Home?', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT) # TODO - put this button in a better place
 checkDealerButton.disable()
 checkDealerButton.hide()
+# TODO - Add buttons for betting
 
 # 5 - Initialize variables
 oGame = Game(window, numberOfPlayers=2)

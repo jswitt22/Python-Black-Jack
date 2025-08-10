@@ -7,7 +7,7 @@ from Card import *
 from Constants import *
 import pygame
 
-class Game():
+class Game(): # TODO - implement method for adding/subtracting player bets
     # Game States
     BETTING = 'Betting'
     DEALING = 'Dealing'
@@ -59,7 +59,7 @@ class Game():
         self.printGameState()
 
     def reset(self):  # this method is called when a new shoe starts
-        pass
+        pass # TODO - implement shoe reshuffle
 
     def startRound(self):
         self.setGameState(Game.DEALING)
