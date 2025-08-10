@@ -28,7 +28,7 @@ class Game():
 
         # Game variables
         self.currentPlayerIndex = 0
-        self.gameState = Game.BETTING
+        self.gameState = ''
         self.numberOfPlayers = numberOfPlayers
         self.dealerIndex = len(self.oPlayerList) - 1
         self.dealerRevealed = False
@@ -36,7 +36,9 @@ class Game():
         # Game text/images
         self.oPlayerIndicator = pygwidgets.DisplayText(self.window, value='^', textColor=BLACK, fontSize=SCORE_FONT_SIZE)
         self.updateIndicator()
-        self.oGameStateText = pygwidgets.DisplayText(self.window, loc=(500, 300),value=self.gameState, textColor=BLACK, fontSize=SCORE_FONT_SIZE)
+        self.oGameStateText = pygwidgets.DisplayText(self.window,value=self.gameState, textColor=BLACK, fontSize=SCORE_FONT_SIZE)
+
+        self.setGameState(Game.BETTING)
 
         self.printGameState()
 
@@ -102,6 +104,9 @@ class Game():
     def setGameState(self, gameState):
         self.gameState = gameState
         self.oGameStateText.setText(gameState)
+        textX, textY, textWidth, textHeight = self.oGameStateText.getRect()
+        centeredLoc = (WINDOW_CENTER_X - textWidth/2, textHeight/2)
+        self.oGameStateText.setLoc(centeredLoc)
 
     def getGameState(self):
         return self.gameState

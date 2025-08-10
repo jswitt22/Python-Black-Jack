@@ -10,8 +10,6 @@ from Game import *
 from Constants import *
 
 # 2 - Define constants
-WINDOW_WIDTH = 1000
-WINDOW_HEIGHT = 600
 FRAMES_PER_SECOND = 30
 
 # 3 - Initialize the world
