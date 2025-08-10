@@ -5,14 +5,21 @@ from Deck import *
 from Player import *
 from Card import *
 from Constants import *
+import pygame
 
 class Game():
+    # Game States
     BETTING = 'Betting'
     DEALING = 'Dealing'
     IS_ANYONE_HOME = 'Insurance?' # TODO - Implement special gameState phase if the dealer has an Ace or Face Card
     PLAYING = 'Playing'
     REVEALING = 'Revealing'
     ROUND_OVER = 'Round Over'
+    # Game Sounds
+    pygame.init()
+    DEAL_SOUND = pygame.mixer.Sound('sounds/cardFlip.wav')
+    SHUFFLE_SOUND = pygame.mixer.Sound('sounds/cardShuffle.wav')
+    WIN_SOUND = pygame.mixer.Sound('sounds/ding.wav')
 
     def __init__(self, window, numberOfPlayers=1):
         self.window = window
@@ -39,6 +46,7 @@ class Game():
         self.updateIndicator()
         self.oGameStateText = pygwidgets.DisplayText(self.window,value=self.gameState, textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
 
+        Game.SHUFFLE_SOUND.play()
         self.setGameState(Game.BETTING)
 
         self.printGameState()
@@ -50,6 +58,7 @@ class Game():
         self.setGameState(Game.DEALING)
 
     def dealOneCard(self):
+        Game.DEAL_SOUND.play()
         cardToDeal = self.oShoe.getCard()
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         oCurrentPlayer.dealCard(cardToDeal)
@@ -58,6 +67,7 @@ class Game():
         if self.gameState == Game.DEALING:
             if not dealer and currentPlayerScore == 21:
                 oCurrentPlayer.giveBlackJack()
+                Game.WIN_SOUND.play()
             self.nextPlayer()
         else:
             if not dealer and currentPlayerScore >= 21:
@@ -86,6 +96,7 @@ class Game():
         oDealer = self.oPlayerList[self.numberOfPlayers]
         DealerScore = oDealer.getScore()
         if not self.dealerRevealed:
+            Game.DEAL_SOUND.play()
             oDealer.revealCards()
             self.dealerRevealed = True
         else:

@@ -26,8 +26,10 @@ clock = pygame.time.Clock()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
 # 4 - Load assets: image(s), sounds,  etc.
+# Images
 background = pygwidgets.Image(window, (0, 0),
                             'images/background.png') # TODO - replace this image with a custom blackjack table background
+# Buttons
 readyButton = pygwidgets.TextButton(window, (MARGIN, BOTTOM_BUTTON_Y),
                             'Ready', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
 hitButtonLeft = WINDOW_CENTER_X - HIT_BUTTON_WIDTH - MARGIN/2
