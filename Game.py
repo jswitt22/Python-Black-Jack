@@ -49,12 +49,13 @@ class Game():
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         oCurrentPlayer.dealCard(cardToDeal)
         currentPlayerScore = oCurrentPlayer.getScore()
+        dealer = oCurrentPlayer.player == DEALER
         if self.gameState == Game.DEALING:
-            if oCurrentPlayer.player != DEALER and currentPlayerScore == 21:
+            if not dealer and currentPlayerScore == 21:
                 oCurrentPlayer.giveBlackJack()
             self.nextPlayer()
         else:
-            if currentPlayerScore >= 21:
+            if not dealer and currentPlayerScore >= 21:
                 self.nextPlayer()
 
     def nextPlayer(self):
