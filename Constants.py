@@ -26,7 +26,7 @@ BACK_OF_CARD_IMAGE = pygame.image.load('images/BackOfCard.png')
 CARD_WIDTH = BACK_OF_CARD_IMAGE.get_width()
 CARD_HEIGHT = BACK_OF_CARD_IMAGE.get_height()
 PLAYER_CARD_OFFSET_X = 15
-CARD_OFFSET_X = -30
+CARD_OFFSET_X = 30
 CARD_OFFSET_Y = -30
 
 # Player locations
