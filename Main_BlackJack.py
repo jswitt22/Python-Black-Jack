@@ -34,6 +34,8 @@ resetButton = pygwidgets.TextButton(window, (20, 20),
                                     'Clear Cards', width=120, height=55)
 revealButton = pygwidgets.TextButton(window, (860, 20),
                                      'Reveal', width=120, height=55)
+dealButton = pygwidgets.TextButton(window, (720, 20),
+                                     'Deal', width=120, height=55)
 
 # 5 - Initialize variables
 oGame = Game(window, numberOfPlayers=2)
@@ -73,6 +75,9 @@ while True:
             print('clicked Reveal')
             oGame.revealDealer()
 
+        if dealButton.handleEvent(event):
+            print('clicked Deal')
+
     # 8 - Do any "per frame" actions
     thisFrameGameState = oGame.getGameState()
     if thisFrameGameState != lastFrameGameState:
@@ -82,30 +87,35 @@ while True:
             readyButton.enable()
             resetButton.disable()
             revealButton.disable()
+            dealButton.disable()
         if thisFrameGameState == Game.DEALING:
             standButton.disable()
             hitButton.disable()
             readyButton.disable()
             resetButton.disable()
             revealButton.disable()
+            dealButton.enable()
         if thisFrameGameState == Game.PLAYING:
             standButton.enable()
             hitButton.enable()
             readyButton.disable()
             resetButton.disable()
             revealButton.disable()
+            dealButton.disable()
         if thisFrameGameState == Game.ROUND_OVER:
             standButton.disable()
             hitButton.disable()
             readyButton.disable()
             resetButton.enable()
             revealButton.disable()
+            dealButton.disable()
         if thisFrameGameState == Game.REVEALING:
             standButton.disable()
             hitButton.disable()
             readyButton.disable()
             resetButton.enable()
             revealButton.enable()
+            dealButton.disable()
     lastFrameGameState = oGame.getGameState()
 
     # 9 - Clear the window before drawing it again
@@ -121,6 +131,7 @@ while True:
     quitButton.draw()
     resetButton.draw()
     revealButton.draw()
+    dealButton.draw()
 
     # 11 - Update the window
     pygame.display.update()
