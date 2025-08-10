@@ -102,19 +102,19 @@ while True:
             resetButton.disable()
             revealButton.disable()
             dealButton.disable()
-        if thisFrameGameState == Game.ROUND_OVER:
-            standButton.disable()
-            hitButton.disable()
-            readyButton.disable()
-            resetButton.enable()
-            revealButton.disable()
-            dealButton.disable()
         if thisFrameGameState == Game.REVEALING:
             standButton.disable()
             hitButton.disable()
             readyButton.disable()
             resetButton.enable()
             revealButton.enable()
+            dealButton.disable()
+        if thisFrameGameState == Game.ROUND_OVER:
+            standButton.disable()
+            hitButton.disable()
+            readyButton.disable()
+            resetButton.enable()
+            revealButton.disable()
             dealButton.disable()
     lastFrameGameState = oGame.getGameState()
 
