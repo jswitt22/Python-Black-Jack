@@ -1,3 +1,5 @@
+import pygame
+
 # Constants
 
 # Colors
@@ -25,8 +27,9 @@ PLAYER_LEFT_LIST = [127, 293, 460, 627, 793, DEALER_LEFT]
 PLAYER_LIST = [PLAYER1, PLAYER2, PLAYER3, PLAYER4, PLAYER5, DEALER]
 
 # Card spacing
-CARD_WIDTH = 80
-CARD_HEIGHT = 120
+BACK_OF_CARD_IMAGE = pygame.image.load('images/BackOfCard.png')
+CARD_WIDTH = BACK_OF_CARD_IMAGE.get_width()
+CARD_HEIGHT = BACK_OF_CARD_IMAGE.get_height()
 CARD_OFFSET_X = -30
 CARD_OFFSET_Y = -30
 

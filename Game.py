@@ -113,8 +113,8 @@ class Game():
 
     def updateIndicator(self):
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
-        indicatorX = oCurrentPlayer.loc[0] + CARD_WIDTH/2 #TODO - card width constant should be gotten from the actual width of the card image
-        indicatorY = oCurrentPlayer.loc[1] + CARD_HEIGHT + SCORE_FONT_SIZE/1.5 #TODO - card height constant should be gotten from the actual height of the card image
+        indicatorX = oCurrentPlayer.loc[0] + CARD_WIDTH/2
+        indicatorY = oCurrentPlayer.loc[1] + CARD_HEIGHT + SCORE_FONT_SIZE/1.5
         self.oPlayerIndicator.setLoc((indicatorX, indicatorY))
 
     def checkBlackJack(self):
