@@ -46,21 +46,23 @@ class Game():
 
     def dealOneCard(self):
         cardToDeal = self.oShoe.getCard()
-        self.oPlayerList[self.currentPlayerIndex].dealCard(cardToDeal)
+        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
+        currentPlayerScore = oCurrentPlayer.getScore()
+        oCurrentPlayer.dealCard(cardToDeal)
         if self.gameState == Game.DEALING:
-            if self.oPlayerList[self.currentPlayerIndex].player != DEALER and self.oPlayerList[self.currentPlayerIndex].getScore() == 21:
-                self.oPlayerList[self.currentPlayerIndex].giveBlackJack()
+            if oCurrentPlayer.player != DEALER and currentPlayerScore == 21:
+                oCurrentPlayer.giveBlackJack()
             self.nextPlayer()
         else:
-            currentPlayerScore = self.oPlayerList[self.currentPlayerIndex].getScore()
             if currentPlayerScore >= 21:
                 self.nextPlayer()
 
     def nextPlayer(self):
+        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         if self.gameState == Game.DEALING:
             if self.currentPlayerIndex == len(self.oPlayerList)-1:
                 self.currentPlayerIndex = 0
-                if self.oPlayerList[self.currentPlayerIndex].getNumberOfCards() == 2:
+                if oCurrentPlayer.getNumberOfCards() == 2:
                     self.setGameState(Game.PLAYING)
             else:
                 self.currentPlayerIndex += 1
@@ -75,14 +77,15 @@ class Game():
             self.updateIndicator()
 
     def revealDealer(self):
-        DealerScore = self.oPlayerList[self.numberOfPlayers].getScore()
+        oDealer = self.oPlayerList[self.numberOfPlayers]
+        DealerScore = oDealer.getScore()
         if not self.dealerRevealed:
-            self.oPlayerList[self.numberOfPlayers].revealCards()
+            oDealer.revealCards()
             self.dealerRevealed = True
         else:
             if DealerScore < 17:
                 self.dealOneCard()
-                DealerScore = self.oPlayerList[self.numberOfPlayers].getScore()
+                DealerScore = oDealer.getScore()
 
         if DealerScore >= 17:
             self.nextPlayer()
@@ -101,8 +104,9 @@ class Game():
         return self.gameState
 
     def updateIndicator(self):
-        indicatorX = self.oPlayerList[self.currentPlayerIndex].loc[0] + CARD_WIDTH/2
-        indicatorY = self.oPlayerList[self.currentPlayerIndex].loc[1] + CARD_HEIGHT + SCORE_FONT_SIZE/1.5
+        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
+        indicatorX = oCurrentPlayer.loc[0] + CARD_WIDTH/2
+        indicatorY = oCurrentPlayer.loc[1] + CARD_HEIGHT + SCORE_FONT_SIZE/1.5
         self.oPlayerIndicator.setLoc((indicatorX, indicatorY))
 
     def getCardNameAndValue(self, index):
