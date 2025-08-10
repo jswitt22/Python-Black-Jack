@@ -34,10 +34,10 @@ class Game():
         self.dealerRevealed = False
 
         # Game text/images
-        self.oPlayerIndicator = pygwidgets.DisplayText(self.window, value='^', textColor=BLACK, fontSize=SCORE_FONT_SIZE)
+        self.oPlayerIndicator = pygwidgets.DisplayText(self.window, value='^', textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
         x, y, self.indicatorWidth, self.indicatorHeight = self.oPlayerIndicator.getRect()
         self.updateIndicator()
-        self.oGameStateText = pygwidgets.DisplayText(self.window,value=self.gameState, textColor=BLACK, fontSize=SCORE_FONT_SIZE)
+        self.oGameStateText = pygwidgets.DisplayText(self.window,value=self.gameState, textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
 
         self.setGameState(Game.BETTING)
 
@@ -116,7 +116,7 @@ class Game():
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         textCenterX = oCurrentPlayer.loc[0] + CARD_WIDTH/2
         indicatorX = textCenterX - self.indicatorWidth/2
-        indicatorY = oCurrentPlayer.loc[1] + CARD_HEIGHT + SCORE_FONT_SIZE/1.5
+        indicatorY = oCurrentPlayer.loc[1] + CARD_HEIGHT + self.indicatorHeight*1.5
         self.oPlayerIndicator.setLoc((indicatorX, indicatorY))
 
     def checkBlackJack(self):

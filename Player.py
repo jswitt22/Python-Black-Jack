@@ -5,8 +5,8 @@ from Card import *
 from Constants import *
 
 class Player:
-    DEALER_CARDS_TOP = 50
-    CARDS_TOP = 350
+    DEALER_CARDS_TOP = 100
+    CARDS_TOP = WINDOW_HEIGHT - CARD_HEIGHT*3
 
     def __init__(self, window, player, money=500):
         self.window = window
@@ -28,7 +28,7 @@ class Player:
 
         self.textCenterX = self.loc[0]+CARD_WIDTH/2
         self.scoreTextY = self.loc[1]+CARD_HEIGHT
-        self.oScoreText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.scoreTextY), str(self.score), textColor=BLACK, fontSize=SCORE_FONT_SIZE)
+        self.oScoreText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.scoreTextY), str(self.score), textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
 
         self.cards = []
 
@@ -50,11 +50,11 @@ class Player:
         numberOfCards = len(self.cards)
         if self.player != DEALER:
             oCard.reveal()
-            cardLocation = (self.loc[0], self.loc[1] + CARD_OFFSET_Y*numberOfCards)
+            cardLocation = (self.loc[0] + PLAYER_CARD_OFFSET_X*numberOfCards, self.loc[1] + CARD_OFFSET_Y*numberOfCards)
         else:
             if numberOfCards > 0:
                 oCard.reveal()
-            cardLocation = (self.loc[0] + CARD_OFFSET_X * numberOfCards, self.loc[1])
+            cardLocation = (self.loc[0] + CARD_OFFSET_X*numberOfCards, self.loc[1])
         oCard.setLoc(cardLocation)
         self.cards.append(oCard)
         self._setScore()
@@ -112,7 +112,7 @@ class Player:
 
     def centerText(self, oDisplayText):
         textX, textY, textWidth, textHeight = oDisplayText.getRect()
-        oDisplayText.setLoc((self.textCenterX - textWidth/2, self.scoreTextY))
+        oDisplayText.setLoc((self.textCenterX - textWidth/2, self.scoreTextY + textHeight/2))
 
     def draw(self):
         for card in self.cards:
