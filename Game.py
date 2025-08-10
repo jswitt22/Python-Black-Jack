@@ -9,6 +9,7 @@ from Constants import *
 class Game():
     BETTING = 'Betting'
     DEALING = 'Dealing'
+    IS_ANYONE_HOME = 'Insurance?' # TODO - Implement special gameState phase if the dealer has an Ace or Face Card
     PLAYING = 'Playing'
     REVEALING = 'Revealing'
     ROUND_OVER = 'Round Over'
@@ -107,9 +108,14 @@ class Game():
 
     def updateIndicator(self):
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
-        indicatorX = oCurrentPlayer.loc[0] + CARD_WIDTH/2
-        indicatorY = oCurrentPlayer.loc[1] + CARD_HEIGHT + SCORE_FONT_SIZE/1.5
+        indicatorX = oCurrentPlayer.loc[0] + CARD_WIDTH/2 #TODO - card width constant should be gotten from the actual width of the card image
+        indicatorY = oCurrentPlayer.loc[1] + CARD_HEIGHT + SCORE_FONT_SIZE/1.5 #TODO - card height constant should be gotten from the actual height of the card image
         self.oPlayerIndicator.setLoc((indicatorX, indicatorY))
+
+    def checkBlackJack(self):
+        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
+        if oCurrentPlayer.blackJack and self.gameState == Game.PLAYING:
+            self.nextPlayer()
 
     def getCardNameAndValue(self, index):
         pass

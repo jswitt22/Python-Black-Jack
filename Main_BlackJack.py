@@ -119,6 +119,8 @@ while True:
             dealButton.disable()
     lastFrameGameState = oGame.getGameState()
 
+    oGame.checkBlackJack()
+
     # 9 - Clear the window before drawing it again
     background.draw()
 

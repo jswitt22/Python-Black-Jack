@@ -106,6 +106,7 @@ class Player:
         self._setScore()
         if self.player == DEALER:
             self.revealed = False
+        self.blackJack = False
 
     def draw(self):
         for card in self.cards:
