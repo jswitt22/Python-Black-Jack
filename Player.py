@@ -124,8 +124,8 @@ class Cheater(Player):
 
     def dealCard(self, oCard):
         numberOfCards = len(self.cards)
-        card1 = {'Rank': 'Jack', 'Suit': 'Spades', 'Value': 10}
-        card2 = {'Rank': 'Ace', 'Suit': 'Spades', 'Value': 1}
+        card1 = CHEATER_CARD_1
+        card2 = CHEATER_CARD_2
         if numberOfCards == 0:
             cardToDeal = Card(self.window, card1['Rank'], card1['Suit'], card1['Value'])
         else:

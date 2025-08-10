@@ -7,8 +7,6 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 TEXT_COLOR = WHITE
 
-HIGHER = 'higher'
-LOWER = 'lower'
 PLAYER1 = 'Player 1'
 PLAYER2 = 'Player 2'
 PLAYER3 = 'Player 3'
@@ -40,6 +38,11 @@ PLAYER_LEFT_LIST = [1*WINDOW_WIDTH/6 - CARD_WIDTH/2,
                     5*WINDOW_WIDTH/6 - CARD_WIDTH/2,
                     DEALER_LEFT]
 PLAYER_LIST = [PLAYER1, PLAYER2, PLAYER3, PLAYER4, PLAYER5, DEALER]
+
+# Cheater Cards (for debugging)
+DEALER_CHEATS = False
+CHEATER_CARD_1 = {'Rank': 'Jack', 'Suit': 'Spades', 'Value': 10}
+CHEATER_CARD_2 = {'Rank': 'Ace', 'Suit': 'Spades', 'Value': 1}
 
 # Fonts
 SCORE_FONT_SIZE = 30
