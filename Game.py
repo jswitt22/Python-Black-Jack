@@ -28,9 +28,13 @@ class Game():
         self.oShoe = BlackJackShoe(window)
         self.oPlayerList = []
         for playerIndex in range(numberOfPlayers):
-            oPlayer = Player(window, PLAYER_LIST[playerIndex])
+            currentPlayer = PLAYER_LIST[playerIndex]
+            if PLAYER_CHEATS[currentPlayer]:
+                oPlayer = Cheater(window, currentPlayer)
+            else:
+                oPlayer = Player(window, currentPlayer)
             self.oPlayerList.append(oPlayer)
-        if DEALER_CHEATS:
+        if PLAYER_CHEATS[DEALER]:
             oDealer = Cheater(window, DEALER)
         else:
             oDealer = Player(window, DEALER)
