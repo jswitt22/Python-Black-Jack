@@ -47,8 +47,8 @@ class Game():
     def dealOneCard(self):
         cardToDeal = self.oShoe.getCard()
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
-        currentPlayerScore = oCurrentPlayer.getScore()
         oCurrentPlayer.dealCard(cardToDeal)
+        currentPlayerScore = oCurrentPlayer.getScore()
         if self.gameState == Game.DEALING:
             if oCurrentPlayer.player != DEALER and currentPlayerScore == 21:
                 oCurrentPlayer.giveBlackJack()
