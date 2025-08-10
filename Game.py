@@ -29,6 +29,7 @@ class Game():
         self.currentPlayerIndex = 0
         self.gameState = Game.BETTING
         self.numberOfPlayers = numberOfPlayers
+        self.dealerIndex = len(self.oPlayerList) - 1
         self.dealerRevealed = False
 
         # Game text/images
@@ -61,19 +62,19 @@ class Game():
     def nextPlayer(self):
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         if self.gameState == Game.DEALING:
-            if self.currentPlayerIndex == len(self.oPlayerList)-1:
+            if self.currentPlayerIndex == self.dealerIndex:
                 self.currentPlayerIndex = 0
                 if oCurrentPlayer.getNumberOfCards() == 2:
                     self.setGameState(Game.PLAYING)
             else:
                 self.currentPlayerIndex += 1
         else:
-            if self.currentPlayerIndex == len(self.oPlayerList)-1:
+            if self.currentPlayerIndex == self.dealerIndex:
                 self.currentPlayerIndex = 0
                 self.setGameState(Game.ROUND_OVER)
             else:
                 self.currentPlayerIndex += 1
-                if self.currentPlayerIndex == len(self.oPlayerList)-1:
+                if self.currentPlayerIndex == self.dealerIndex:
                     self.setGameState(Game.REVEALING)
             self.updateIndicator()
 
