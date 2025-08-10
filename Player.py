@@ -26,7 +26,9 @@ class Player:
         self.money = money
         self.blackJack = False
 
-        self.oScoreText = pygwidgets.DisplayText(self.window, (self.loc[0]+CARD_WIDTH/2, self.loc[1]+CARD_HEIGHT), str(self.score), textColor=BLACK, fontSize=SCORE_FONT_SIZE)
+        self.textCenterX = self.loc[0]+CARD_WIDTH/2
+        self.scoreTextY = self.loc[1]+CARD_HEIGHT
+        self.oScoreText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.scoreTextY), str(self.score), textColor=BLACK, fontSize=SCORE_FONT_SIZE)
 
         self.cards = []
 
@@ -108,9 +110,14 @@ class Player:
             self.revealed = False
         self.blackJack = False
 
+    def centerText(self, oDisplayText):
+        textX, textY, textWidth, textHeight = oDisplayText.getRect()
+        oDisplayText.setLoc((self.textCenterX - textWidth/2, self.scoreTextY))
+
     def draw(self):
         for card in self.cards:
             card.draw()
+        self.centerText(self.oScoreText)
         self.oScoreText.draw()
 
 if __name__ == '__main__':
