@@ -54,13 +54,13 @@ class Player:
             cardLocation = (self.loc[0] + CARD_OFFSET_X * numberOfCards, self.loc[1])
         oCard.setLoc(cardLocation)
         self.cards.append(oCard)
-        self._setScore(self.score + oCard.getValue ())
+        self._setScore()
 
     def revealCards(self):
         for oCard in self.cards:
             oCard.reveal()
         self.revealed = True
-        self._setScore(self.score)
+        self._setScore()
 
     def getNumberOfCards(self):
         return len(self.cards)
@@ -68,8 +68,26 @@ class Player:
     def getScore(self):
         return self.score
 
-    def _setScore(self, score):
-        self.score = score
+    def _setScore(self):
+        # Calculate score based on current cards
+        scoreCount = 0
+        aceCount = 0
+        for oCard in self.cards:
+            if oCard.getRank() == 'Ace': # Ignore Aces values for now
+                thisCardValue = 0
+                aceCount += 1
+            else:
+                thisCardValue = oCard.getValue()
+            scoreCount += thisCardValue
+        for ace in range(aceCount): # Count the aces as 1 or 11 depending on which is best
+            if scoreCount+11 > 21:
+                thisCardValue = 1
+            else:
+                thisCardValue = 11
+            scoreCount += thisCardValue
+        self.score = scoreCount
+
+        # Update displayed score (Different if cards aren't revealed)
         if self.revealed:
             self.oScoreText.setText(str(self.score))
         elif len(self.cards) >= 2:
@@ -78,7 +96,7 @@ class Player:
 
     def deleteCards(self):
         self.cards = []
-        self._setScore(0)
+        self._setScore()
         if self.player == DEALER:
             self.revealed = False
 
