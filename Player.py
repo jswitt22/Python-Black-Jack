@@ -12,7 +12,6 @@ class Player:
         self.window = window
         self.player = player
 
-
         if self.player == DEALER:
             top = Player.DEALER_CARDS_TOP
             self.revealed = False
@@ -26,9 +25,12 @@ class Player:
         self.money = money # TODO - implement display of money
         self.blackJack = False
 
-        self.textCenterX = self.loc[0]+CARD_WIDTH/2
-        self.scoreTextY = self.loc[1]+CARD_HEIGHT
+        self.textCenterX = self.loc[0] + CARD_WIDTH/2
+        self.scoreTextY = self.loc[1] + CARD_HEIGHT + 10
         self.oScoreText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.scoreTextY), str(self.score), textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
+        scoreTextHeight = self.oScoreText.getRect()[3]
+        self.moneyTextY = self.scoreTextY + (scoreTextHeight*1.5)*2
+        self.oMoneyText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.moneyTextY), f'Money: {self.money}', textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
 
         self.cards = []
 
@@ -112,13 +114,16 @@ class Player:
 
     def centerText(self, oDisplayText):
         textX, textY, textWidth, textHeight = oDisplayText.getRect()
-        oDisplayText.setLoc((self.textCenterX - textWidth/2, self.scoreTextY + textHeight/2))
+        oDisplayText.setLoc((self.textCenterX - textWidth/2, textY))
 
     def draw(self):
         for card in self.cards:
             card.draw()
         self.centerText(self.oScoreText)
         self.oScoreText.draw()
+        self.centerText(self.oMoneyText)
+        if self.player != DEALER:
+            self.oMoneyText.draw()
 
 class Cheater(Player):
 

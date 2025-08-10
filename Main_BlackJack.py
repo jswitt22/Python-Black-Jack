@@ -55,7 +55,7 @@ checkDealerButton.hide()
 # TODO - Add buttons for betting
 
 # 5 - Initialize variables
-oGame = Game(window, numberOfPlayers=2)
+oGame = Game(window, numberOfPlayers=1)
 lastFrameGameState = ''
 
 # 6 - Loop forever
