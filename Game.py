@@ -68,6 +68,9 @@ class Game():
             if not dealer and currentPlayerScore == 21:
                 oCurrentPlayer.giveBlackJack()
                 Game.WIN_SOUND.play()
+            elif dealer and oCurrentPlayer.getNumberOfCards() == 2:
+                if cardToDeal.getValue() == 1 or cardToDeal.getValue() == 10:
+                    self.setGameState(Game.IS_ANYONE_HOME)
             self.nextPlayer()
         else:
             if not dealer and currentPlayerScore >= 21:
@@ -85,7 +88,8 @@ class Game():
         else:
             if self.currentPlayerIndex == self.dealerIndex:
                 self.currentPlayerIndex = 0
-                self.setGameState(Game.ROUND_OVER)
+                if self.gameState != Game.IS_ANYONE_HOME:
+                    self.setGameState(Game.ROUND_OVER)
             else:
                 self.currentPlayerIndex += 1
                 if self.currentPlayerIndex == self.dealerIndex:
@@ -134,6 +138,16 @@ class Game():
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         if oCurrentPlayer.blackJack and self.gameState == Game.PLAYING:
             self.nextPlayer()
+
+    def checkDealer(self):
+        oDealer = self.oPlayerList[self.numberOfPlayers]
+        DealerScore = oDealer.getScore()
+        if DealerScore == 21:
+            oDealer.revealCards()
+            self.setGameState(Game.ROUND_OVER)
+        else:
+            self.setGameState(Game.PLAYING)
+            # TODO - display text that says "Nobody's home"
 
     def getCardNameAndValue(self, index):
         pass

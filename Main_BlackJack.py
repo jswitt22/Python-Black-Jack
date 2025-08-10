@@ -48,6 +48,10 @@ revealButtonLeft, revealButtonTop, revealButtonWidth, revealButtonHeight = revea
 dealButtonLeft = revealButtonLeft - DEAL_BUTTON_WIDTH - MARGIN
 dealButton = pygwidgets.TextButton(window, (dealButtonLeft, TOP_BUTTON_Y),
                                      'Deal', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+checkDealerButton = pygwidgets.TextButton(window, (WINDOW_CENTER_X - STANDARD_BUTTON_WIDTH/2, TOP_BUTTON_Y),
+                                     'Is Anyone Home?', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+checkDealerButton.disable()
+checkDealerButton.hide()
 
 # 5 - Initialize variables
 oGame = Game(window, numberOfPlayers=2)
@@ -91,6 +95,12 @@ while True:
             print('clicked Deal')
             oGame.dealOneCard()
 
+        if checkDealerButton.handleEvent(event):
+            print('clicked CheckDealer')
+            oGame.checkDealer()
+            checkDealerButton.disable()
+            checkDealerButton.hide()
+
     # 8 - Do any "per frame" actions
     thisFrameGameState = oGame.getGameState()
     if thisFrameGameState != lastFrameGameState:
@@ -108,6 +118,9 @@ while True:
             resetButton.disable()
             revealButton.disable()
             dealButton.enable()
+        if thisFrameGameState == Game.IS_ANYONE_HOME:
+            checkDealerButton.enable()
+            checkDealerButton.show()
         if thisFrameGameState == Game.PLAYING:
             standButton.enable()
             hitButton.enable()
@@ -147,6 +160,7 @@ while True:
     resetButton.draw()
     revealButton.draw()
     dealButton.draw()
+    checkDealerButton.draw()
 
     # 11 - Update the window
     pygame.display.update()
