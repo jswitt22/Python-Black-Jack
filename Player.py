@@ -93,6 +93,8 @@ class Player:
             self.oScoreText.setText(str(self.score))
         elif len(self.cards) >= 2:
             hiddenScore = self.cards[1].getValue()
+            if hiddenScore == 1:
+                hiddenScore = 11
             self.oScoreText.setText(str(hiddenScore))
 
     def giveBlackJack(self):
