@@ -11,7 +11,7 @@ class Game():
     # Game States
     BETTING = 'Betting'
     DEALING = 'Dealing'
-    IS_ANYONE_HOME = 'Insurance?' # TODO - Implement special gameState phase if the dealer has an Ace or Face Card
+    IS_ANYONE_HOME = 'Insurance?'
     PLAYING = 'Playing'
     REVEALING = 'Revealing'
     ROUND_OVER = 'Round Over'
