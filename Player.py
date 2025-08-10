@@ -24,6 +24,7 @@ class Player:
 
         self.score = 0
         self.money = money
+        self.blackJack = False
 
         self.oScoreText = pygwidgets.DisplayText(self.window, (self.loc[0]+CARD_WIDTH/2, self.loc[1]+CARD_HEIGHT), str(self.score), textColor=BLACK, fontSize=SCORE_FONT_SIZE)
 
@@ -93,6 +94,10 @@ class Player:
         elif len(self.cards) >= 2:
             hiddenScore = self.cards[1].getValue()
             self.oScoreText.setText(str(hiddenScore))
+
+    def giveBlackJack(self):
+        self.blackJack = True
+        self.oScoreText.setText('Black Jack!')
 
     def deleteCards(self):
         self.cards = []

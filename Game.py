@@ -48,6 +48,8 @@ class Game():
         cardToDeal = self.oShoe.getCard()
         self.oPlayerList[self.currentPlayerIndex].dealCard(cardToDeal)
         if self.gameState == Game.DEALING:
+            if self.oPlayerList[self.currentPlayerIndex].player != DEALER and self.oPlayerList[self.currentPlayerIndex].getScore() == 21:
+                self.oPlayerList[self.currentPlayerIndex].giveBlackJack()
             self.nextPlayer()
         else:
             currentPlayerScore = self.oPlayerList[self.currentPlayerIndex].getScore()
