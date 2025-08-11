@@ -50,6 +50,15 @@ class Player:
 """
         return string
 
+    def increaseBet(self, amount):
+        validBet = self.money >= amount and self.bet >= -1*amount
+        if not validBet:
+            return
+        self.bet += amount
+        self.oBetText.setText(f'Bet: {self.bet}')
+        self.money -= amount
+        self.oMoneyText.setText(f'Money: {self.money}')
+
     def dealCard(self, oCard):
         numberOfCards = len(self.cards)
         if self.player != DEALER:

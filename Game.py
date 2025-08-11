@@ -172,10 +172,18 @@ class Game(): # TODO - implement method for adding/subtracting player bets
             # TODO - display text that says "Nobody's home"
 
     def handleEvent(self, event):
+        if self.gameState != Game.BETTING:
+            return
         for player, oButtonList in self.buttonsDict.items():
             for oButton in oButtonList:
                 if oButton.handleEvent(event):
                     print(f'{player} clicked {oButton.getNickname()}')
+                    playerIndex = PLAYER_LIST.index(player)
+                    if oButton.getNickname() == '-10':
+                        amount = -10
+                    if oButton.getNickname() == '+10':
+                        amount = 10
+                    self.oPlayerList[playerIndex].increaseBet(amount)
 
     def draw(self):
         for oPlayer in self.oPlayerList:
