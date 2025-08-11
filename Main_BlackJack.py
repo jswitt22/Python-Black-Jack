@@ -17,6 +17,10 @@ def enableButtons(buttonList):
     for TextButton in buttonList:
         TextButton.enable()
 
+def drawList(list):
+    for object in list:
+        object.draw()
+
 def main():
     # 2 - Define constants
     STANDARD_BUTTON_WIDTH = 120
@@ -39,28 +43,37 @@ def main():
     background = pygwidgets.Image(window, (0, 0),
                                 'images/background.png') # TODO - replace this image with a custom blackjack table background
     # Buttons
+    buttonList = []
     readyButton = pygwidgets.TextButton(window, (MARGIN, BOTTOM_BUTTON_Y),
                                 'Ready', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+    buttonList.append(readyButton)
     hitButtonLeft = WINDOW_CENTER_X - HIT_BUTTON_WIDTH - MARGIN/2
     hitButton = pygwidgets.TextButton(window, (hitButtonLeft, BOTTOM_BUTTON_Y),
                                 'Hit', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+    buttonList.append(hitButton)
     standButtonLeft = WINDOW_CENTER_X + MARGIN/2
     standButton = pygwidgets.TextButton(window, (standButtonLeft, BOTTOM_BUTTON_Y),
                                 'Stand', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+    buttonList.append(standButton)
     quitButton = pygwidgets.TextButton(window, (RIGHT_BUTTON_X, BOTTOM_BUTTON_Y),
                                 'Quit', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+    buttonList.append(quitButton)
     resetButton = pygwidgets.TextButton(window, (LEFT_BUTTON_X, TOP_BUTTON_Y),
                                         'Clear Cards', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+    buttonList.append(resetButton)
     revealButton = pygwidgets.TextButton(window, (RIGHT_BUTTON_X, TOP_BUTTON_Y),
                                          'Reveal', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+    buttonList.append(revealButton)
     revealButtonLeft, revealButtonTop, revealButtonWidth, revealButtonHeight = revealButton.getRect()
     dealButtonLeft = revealButtonLeft - DEAL_BUTTON_WIDTH - MARGIN
     dealButton = pygwidgets.TextButton(window, (dealButtonLeft, TOP_BUTTON_Y),
                                          'Deal', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+    buttonList.append(dealButton)
     checkDealerButton = pygwidgets.TextButton(window, (WINDOW_CENTER_X - STANDARD_BUTTON_WIDTH/2, TOP_BUTTON_Y),
                                          'Is Anyone Home?', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT) # TODO - put this button in a better place
     checkDealerButton.disable()
     checkDealerButton.hide()
+    buttonList.append(checkDealerButton)
     # TODO - Add buttons for betting
 
     # 5 - Initialize variables
@@ -144,14 +157,7 @@ def main():
         # Tell the game to draw itself
         oGame.draw()
         # Draw remaining user interface components
-        readyButton.draw()
-        hitButton.draw()
-        standButton.draw()
-        quitButton.draw()
-        resetButton.draw()
-        revealButton.draw()
-        dealButton.draw()
-        checkDealerButton.draw()
+        drawList(buttonList)
 
         # 11 - Update the window
         pygame.display.update()

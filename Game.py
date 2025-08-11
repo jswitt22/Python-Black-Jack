@@ -157,12 +157,6 @@ class Game(): # TODO - implement method for adding/subtracting player bets
             self.setGameState(Game.PLAYING)
             # TODO - display text that says "Nobody's home"
 
-    def getCardNameAndValue(self, index):
-        pass
-
-    def showCard(self, index):
-        pass
-
     def draw(self):
         for oPlayer in self.oPlayerList:
             oPlayer.draw()

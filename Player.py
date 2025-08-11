@@ -22,7 +22,7 @@ class Player:
         self.loc = (left, top)
 
         self.score = 0
-        self.money = money # TODO - implement display of money
+        self.money = money
         self.blackJack = False
 
         self.textCenterX = self.loc[0] + CARD_WIDTH/2
