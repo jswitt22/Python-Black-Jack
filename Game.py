@@ -25,6 +25,7 @@ class Game(): # TODO - implement method for adding/subtracting player bets
         self.window = window
 
         # Game objects
+        # Cards and Players
         self.oShoe = BlackJackShoe(window)
         self.oPlayerList = []
         for playerIndex in range(numberOfPlayers):
@@ -39,6 +40,19 @@ class Game(): # TODO - implement method for adding/subtracting player bets
         else:
             oDealer = Player(window, DEALER)
         self.oPlayerList.append(oDealer)
+        # Buttons
+        self.buttonsDict = {}
+        for oPlayer in self.oPlayerList:
+            if oPlayer.player == DEALER:
+                continue
+            betButtonTop = WINDOW_HEIGHT - BET_BUTTON_WIDTH * 4
+            betButtonLeft = oPlayer.textCenterX
+            betIncreaseButton = pygwidgets.TextButton(window, (betButtonLeft, betButtonTop),
+                                                      '+10', width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
+            betDecreaseButton = pygwidgets.TextButton(window, (betButtonLeft - BET_BUTTON_WIDTH, betButtonTop),
+                                                      '-10', width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
+            playerButtonList = [betIncreaseButton, betDecreaseButton]
+            self.buttonsDict[oPlayer.player] = playerButtonList
 
         # Game variables
         self.currentPlayerIndex = 0
@@ -157,12 +171,21 @@ class Game(): # TODO - implement method for adding/subtracting player bets
             self.setGameState(Game.PLAYING)
             # TODO - display text that says "Nobody's home"
 
+    def handleEvent(self, event):
+        for player, oButtonList in self.buttonsDict.items():
+            for oButton in oButtonList:
+                if oButton.handleEvent(event):
+                    print(f'{player} clicked {oButton.getNickname()}')
+
     def draw(self):
         for oPlayer in self.oPlayerList:
             oPlayer.draw()
         if self.gameState == Game.PLAYING:
             self.oPlayerIndicator.draw()
         self.oGameStateText.draw()
+        for oButtonList in self.buttonsDict.values():
+            for oButton in oButtonList:
+                oButton.draw()
 
     def printGameState(self):
         # Debug
