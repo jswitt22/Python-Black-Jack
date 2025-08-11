@@ -25,6 +25,7 @@ def main():
     # 2 - Define constants
     STANDARD_BUTTON_WIDTH = 120
     STANDARD_BUTTON_HEIGHT = 60
+    BET_BUTTON_WIDTH = 30
     DEAL_BUTTON_WIDTH = STANDARD_BUTTON_WIDTH
     HIT_BUTTON_WIDTH = STANDARD_BUTTON_WIDTH
     BOTTOM_BUTTON_Y = WINDOW_HEIGHT - STANDARD_BUTTON_HEIGHT - MARGIN
@@ -75,6 +76,14 @@ def main():
     checkDealerButton.hide()
     buttonList.append(checkDealerButton)
     # TODO - Add buttons for betting
+    betButtonTop = WINDOW_HEIGHT - BET_BUTTON_WIDTH*4
+    betButtonLeft = PLAYER_LEFT_LIST[0] + CARD_WIDTH/2
+    betIncreaseButton = pygwidgets.TextButton(window, (betButtonLeft, betButtonTop),
+                                              '+10', width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
+    buttonList.append(betIncreaseButton)
+    betDecreaseButton = pygwidgets.TextButton(window, (betButtonLeft-BET_BUTTON_WIDTH, betButtonTop),
+                                              '-10', width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
+    buttonList.append(betDecreaseButton)
 
     # 5 - Initialize variables
     oGame = Game(window, numberOfPlayers=1)
@@ -123,6 +132,12 @@ def main():
                 oGame.checkDealer()
                 checkDealerButton.disable()
                 checkDealerButton.hide()
+
+            if betIncreaseButton.handleEvent(event):
+                print('clicked Bet Increase')
+            if betDecreaseButton.handleEvent(event):
+                print('clicked Bet Decrease')
+
 
         # 8 - Do any "per frame" actions
         thisFrameGameState = oGame.getGameState()
