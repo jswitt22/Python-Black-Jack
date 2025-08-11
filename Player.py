@@ -1,9 +1,8 @@
-# Player class
-
 from pygwidgets import *
 from Card import *
 from Constants import *
 
+# Player class
 class Player:
     DEALER_CARDS_TOP = 100
     CARDS_TOP = WINDOW_HEIGHT - CARD_HEIGHT*3
@@ -23,6 +22,7 @@ class Player:
 
         self.score = 0
         self.money = money
+        self.bet = 0
         self.blackJack = False
 
         self.textCenterX = self.loc[0] + CARD_WIDTH/2
@@ -31,6 +31,8 @@ class Player:
         scoreTextHeight = self.oScoreText.getRect()[3]
         self.moneyTextY = self.scoreTextY + (scoreTextHeight*1.5)*2
         self.oMoneyText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.moneyTextY), f'Money: {self.money}', textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
+        self.betTextY = WINDOW_CENTER_Y - scoreTextHeight/2
+        self.oBetText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.betTextY), f'Bet: {self.bet}', textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
 
         self.cards = []
 
@@ -122,9 +124,13 @@ class Player:
         self.centerText(self.oScoreText)
         self.oScoreText.draw()
         self.centerText(self.oMoneyText)
+        self.centerText(self.oBetText)
         if self.player != DEALER:
             self.oMoneyText.draw()
+            self.oBetText.draw()
+# End Player class
 
+# Cheater class (subclass of Player)
 class Cheater(Player):
 
     def dealCard(self, oCard):
@@ -136,6 +142,7 @@ class Cheater(Player):
         else:
             cardToDeal = Card(self.window, card2['Rank'], card2['Suit'], card2['Value'])
         super().dealCard(cardToDeal)
+# End Cheater class
 
 if __name__ == '__main__':
     # Main code to test the Player class
