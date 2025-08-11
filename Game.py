@@ -120,17 +120,17 @@ class Game():
 
     def revealDealer(self):
         oDealer = self.oPlayerList[self.numberOfPlayers]
-        DealerScore = oDealer.getScore()
+        dealerScore = oDealer.getScore()
         if not self.dealerRevealed:
             Game.DEAL_SOUND.play()
             oDealer.revealCards()
             self.dealerRevealed = True
         else:
-            if DealerScore < 17:
+            if dealerScore < 17:
                 self.dealOneCard()
-                DealerScore = oDealer.getScore()
+                dealerScore = oDealer.getScore()
 
-        if DealerScore >= 17:
+        if dealerScore >= 17:
             self.nextPlayer()
 
     def nextRound(self):
@@ -140,6 +140,8 @@ class Game():
         self.dealerRevealed = False
 
     def setGameState(self, gameState):
+        if gameState == Game.ROUND_OVER:
+            self.payout()
         self.gameState = gameState
         self.oGameStateText.setText(gameState)
         textX, textY, textWidth, textHeight = self.oGameStateText.getRect()
@@ -170,6 +172,26 @@ class Game():
         else:
             self.setGameState(Game.PLAYING)
             # TODO - display text that says "Nobody's home"
+
+    def payout(self):
+        oDealer = self.oPlayerList[self.numberOfPlayers]
+        dealerScore = oDealer.getScore()
+        payout = 0
+        for oPlayer in self.oPlayerList:
+            playerScore = oPlayer.getScore()
+            if oPlayer.player == DEALER:
+                continue
+            if oPlayer.blackJack:
+                payout = int((3/2)*oPlayer.bet)
+            elif playerScore > 21:
+                payout = (-1)*oPlayer.bet
+            elif playerScore > dealerScore or dealerScore > 21:
+                payout = oPlayer.bet
+            elif playerScore == dealerScore:
+                payout = 0
+            elif playerScore < dealerScore <= 21:
+                payout = (-1)*oPlayer.bet
+            oPlayer.payout(payout)
 
     def handleEvent(self, event):
         if self.gameState != Game.BETTING:

@@ -59,6 +59,13 @@ class Player:
         self.money -= amount
         self.oMoneyText.setText(f'Money: {self.money}')
 
+    def payout(self, amount):
+        self.bet += amount
+        self.money += self.bet
+        self.bet -= self.bet
+        self.oBetText.setText(f'Bet: {self.bet}')
+        self.oMoneyText.setText(f'Money: {self.money}')
+
     def dealCard(self, oCard):
         numberOfCards = len(self.cards)
         if self.player != DEALER:
