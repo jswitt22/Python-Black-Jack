@@ -7,7 +7,7 @@ from Card import *
 from Constants import *
 import pygame
 
-class Game(): # TODO - implement method for adding/subtracting player bets
+class Game():
     # Game States
     BETTING = 'Betting'
     DEALING = 'Dealing'
