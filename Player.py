@@ -24,6 +24,7 @@ class Player:
         self.money = money
         self.bet = 0
         self.blackJack = False
+        self.notPlaying = False
 
         self.textCenterX = self.loc[0] + CARD_WIDTH/2
         self.scoreTextY = self.loc[1] + CARD_HEIGHT + 10

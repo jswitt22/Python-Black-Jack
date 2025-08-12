@@ -150,7 +150,7 @@ def main():
                 enableButtons([resetButton, hitButton])
         lastFrameGameState = oGame.getGameState()
 
-        oGame.checkBlackJack()
+        oGame.checkForSkipPlayer()
 
         # 9 - Clear the window before drawing it again
         window.fill(BLACK) # TODO - replace this with background.draw() when we have a new image for the background

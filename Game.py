@@ -136,6 +136,7 @@ class Game():
     def nextRound(self):
         for oPlayer in self.oPlayerList:
             oPlayer.deleteCards()
+            oPlayer.notPlaying = False
         self.setGameState(Game.BETTING)
         self.dealerRevealed = False
 
@@ -158,9 +159,14 @@ class Game():
         indicatorY = oCurrentPlayer.loc[1] + CARD_HEIGHT + self.indicatorHeight*1.5
         self.oPlayerIndicator.setLoc((indicatorX, indicatorY))
 
-    def checkBlackJack(self):
+    def checkForSkipPlayer(self):
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
-        if oCurrentPlayer.blackJack and self.gameState == Game.PLAYING:
+        if oCurrentPlayer.player == DEALER:
+            return
+        if self.gameState == Game.DEALING and oCurrentPlayer.bet == 0:
+            oCurrentPlayer.notPlaying = True
+            self.nextPlayer()
+        if self.gameState == Game.PLAYING and (oCurrentPlayer.blackJack or oCurrentPlayer.notPlaying):
             self.nextPlayer()
 
     def checkDealer(self):
