@@ -1,6 +1,8 @@
 #  Game class
 
+from unittest import case
 import pygwidgets
+from CardWidgets import *
 from Deck import *
 from Player import *
 from Card import *
@@ -47,10 +49,12 @@ class Game():
                 continue
             betButtonTop = WINDOW_HEIGHT - BET_BUTTON_WIDTH * 4
             betButtonLeft = oPlayer.textCenterX
-            betIncreaseButton = pygwidgets.TextButton(window, (betButtonLeft, betButtonTop),
-                                                      '+10', width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
-            betDecreaseButton = pygwidgets.TextButton(window, (betButtonLeft - BET_BUTTON_WIDTH, betButtonTop),
-                                                      '-10', width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
+            betButtonHideList = [Game.DEALING, Game.IS_ANYONE_HOME, Game.PLAYING, Game.REVEALING, Game.ROUND_OVER]
+            betButtonShowList = [Game.BETTING]
+            betIncreaseButton = GameButton(window, (betButtonLeft, betButtonTop),
+                                                      '+10', betButtonHideList, betButtonShowList,width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
+            betDecreaseButton = GameButton(window, (betButtonLeft - BET_BUTTON_WIDTH, betButtonTop),
+                                                      '-10', betButtonHideList, betButtonShowList, width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
             playerButtonList = [betIncreaseButton, betDecreaseButton]
             self.buttonsDict[oPlayer.player] = playerButtonList
 
@@ -148,6 +152,7 @@ class Game():
         textX, textY, textWidth, textHeight = self.oGameStateText.getRect()
         centeredLoc = (WINDOW_CENTER_X - textWidth/2, textHeight/2)
         self.oGameStateText.setLoc(centeredLoc)
+        self.updatePlayerButtons()
 
     def getGameState(self):
         return self.gameState
@@ -198,6 +203,12 @@ class Game():
             elif playerScore < dealerScore <= 21:
                 payout = (-1)*oPlayer.bet
             oPlayer.payout(payout)
+
+    def updatePlayerButtons(self):
+        for oButtonList in self.buttonsDict.values():
+            for oButton in oButtonList:
+                oButton.hideOrShow(self.gameState)
+
 
     def handleEvent(self, event):
         if self.gameState != Game.BETTING:
