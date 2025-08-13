@@ -1,7 +1,5 @@
 #  Game class
 
-from unittest import case
-import pygwidgets
 from CardWidgets import *
 from Deck import *
 from Player import *
@@ -9,7 +7,7 @@ from Card import *
 from Constants import *
 import pygame
 
-class Game():
+class Game:
     # Game States
     BETTING = 'Betting'
     DEALING = 'Dealing'
@@ -89,6 +87,7 @@ class Game():
 
     def nextPlayer(self):
         notPlaying = True
+        oNextPlayer = None
         while notPlaying:
             if self.currentPlayerIndex == len(self.oPlayerList) - 1:
                 self.currentPlayerIndex = 0
