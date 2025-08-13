@@ -233,12 +233,15 @@ class Game():
             oPlayer.payout(payout)
 
     def updatePlayerButtons(self):
-        for oButtonList in self.buttonsDict.values():
+        for playerName, oButtonList in self.buttonsDict.items():
+            playerIndex = self.playerNames.index(playerName)
+            oPlayer = self.oPlayerList[playerIndex]
             for oButton in oButtonList:
                 oButton.hideOrShow(self.gameState)
+                if oPlayer.notPlaying:
+                    oButton.disable()
 
     def handleEvent(self, event):
-        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         for playerName, oButtonList in self.buttonsDict.items():
             playerIndex = PLAYER_LIST.index(playerName)
             oPlayer = self.oPlayerList[playerIndex]
