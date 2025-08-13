@@ -48,14 +48,18 @@ class Game():
             if oPlayer.player == DEALER:
                 continue
             betButtonTop = WINDOW_HEIGHT - BET_BUTTON_WIDTH * 4
-            betButtonLeft = oPlayer.textCenterX
+            betButtonLeft = oPlayer.textCenterX - BET_BUTTON_WIDTH
             betButtonHideList = [Game.DEALING, Game.IS_ANYONE_HOME, Game.PLAYING, Game.REVEALING, Game.ROUND_OVER]
             betButtonShowList = [Game.BETTING]
-            betIncreaseButton = GameButton(window, (betButtonLeft, betButtonTop),
-                                                      '+10', betButtonHideList, betButtonShowList,width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
-            betDecreaseButton = GameButton(window, (betButtonLeft - BET_BUTTON_WIDTH, betButtonTop),
-                                                      '-10', betButtonHideList, betButtonShowList, width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
-            playerButtonList = [betIncreaseButton, betDecreaseButton]
+            doubleButtonHideList = [Game.BETTING, Game.DEALING, Game.IS_ANYONE_HOME, Game.REVEALING, Game.ROUND_OVER]
+            doubleButtonShowList = [Game.PLAYING]
+            betIncreaseButton = GameButton(window, (betButtonLeft + BET_BUTTON_WIDTH, betButtonTop), '+10',
+                                                        betButtonHideList, betButtonShowList, buttonType='bet', width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
+            betDecreaseButton = GameButton(window, (betButtonLeft, betButtonTop), '-10',
+                                                        betButtonHideList, betButtonShowList, buttonType='bet', width=BET_BUTTON_WIDTH, height=BET_BUTTON_WIDTH)
+            doubleButton = GameButton(window, (betButtonLeft, betButtonTop), 'Double',
+                                                    doubleButtonHideList, doubleButtonShowList, buttonType='bet', width=BET_BUTTON_WIDTH*2, height=BET_BUTTON_WIDTH)
+            playerButtonList = [betIncreaseButton, betDecreaseButton, doubleButton]
             self.buttonsDict[oPlayer.player] = playerButtonList
 
         # Game variables
@@ -209,20 +213,20 @@ class Game():
             for oButton in oButtonList:
                 oButton.hideOrShow(self.gameState)
 
-
     def handleEvent(self, event):
-        if self.gameState != Game.BETTING:
-            return
-        for player, oButtonList in self.buttonsDict.items():
+        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
+        for playerName, oButtonList in self.buttonsDict.items():
+            playerIndex = PLAYER_LIST.index(playerName)
+            oPlayer = self.oPlayerList[playerIndex]
             for oButton in oButtonList:
                 if oButton.handleEvent(event):
-                    print(f'{player} clicked {oButton.getNickname()}')
-                    playerIndex = PLAYER_LIST.index(player)
-                    if oButton.getNickname() == '-10': # TODO - make this better
-                        amount = -10
-                    if oButton.getNickname() == '+10':
-                        amount = 10
-                    self.oPlayerList[playerIndex].increaseBet(amount)
+                    print(f'{playerName} clicked {oButton.getNickname()}')
+                    if oButton.buttonType == 'bet':
+                        if oButton.getNickname() == 'Double':
+                            amount = oPlayer.bet
+                        else:
+                            amount = int(oButton.getNickname())
+                        oPlayer.increaseBet(amount)
 
     def draw(self):
         for oPlayer in self.oPlayerList:
