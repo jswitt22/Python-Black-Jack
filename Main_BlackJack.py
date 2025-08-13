@@ -2,10 +2,8 @@
 # Main Program
 
 # 1 - Import packages
-import pygame
 from pygame.locals import *
 import sys
-import pygwidgets
 from Game import *
 from Constants import *
 

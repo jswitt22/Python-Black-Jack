@@ -7,9 +7,9 @@ class Player:
     DEALER_CARDS_TOP = 100
     CARDS_TOP = WINDOW_HEIGHT - CARD_HEIGHT*3
 
-    def __init__(self, window, player, money=500):
+    def __init__(self, window, playerName, money=500):
         self.window = window
-        self.player = player
+        self.player = playerName
 
         if self.player == DEALER:
             top = Player.DEALER_CARDS_TOP
