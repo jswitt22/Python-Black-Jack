@@ -192,7 +192,9 @@ class Game:
         if not oPlayer.increaseBet(currentBet):
             return False
         self.dealOneCard()
-        self.nextPlayer()
+        oNewCurrentPlayer = self.nextPlayer()
+        if oNewCurrentPlayer.player == DEALER:
+            self.setGameState(Game.REVEALING)
         return True
 
     def setGameState(self, gameState):
