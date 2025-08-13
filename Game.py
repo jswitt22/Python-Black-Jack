@@ -181,6 +181,17 @@ class Game():
             self.setGameState(Game.PLAYING)
             # TODO - display text that says "Nobody's home"
 
+    def doubleButtonAction(self, oPlayer):
+        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
+        if oPlayer.player != oCurrentPlayer.player or oCurrentPlayer.getNumberOfCards() != 2:
+            return False
+        currentBet = oPlayer.bet
+        if not oPlayer.increaseBet(currentBet):
+            return False
+        self.dealOneCard()
+        self.nextPlayer()
+        return True
+
     def setGameState(self, gameState):
         if gameState == Game.ROUND_OVER:
             self.payout()
@@ -236,10 +247,9 @@ class Game():
                     print(f'{playerName} clicked {oButton.getNickname()}')
                     if oButton.buttonType == 'bet':
                         if oButton.getNickname() == 'Double':
-                            amount = oPlayer.bet
+                            self.doubleButtonAction(oPlayer)
                         else:
-                            amount = int(oButton.getNickname())
-                        oPlayer.increaseBet(amount)
+                            oPlayer.increaseBet(int(oButton.getNickname()))
 
     def draw(self):
         for oPlayer in self.oPlayerList:

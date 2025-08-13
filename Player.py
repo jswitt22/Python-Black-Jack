@@ -54,11 +54,12 @@ class Player:
     def increaseBet(self, amount):
         validBet = self.money >= amount and self.bet >= -1*amount
         if not validBet:
-            return
+            return False
         self.bet += amount
         self.oBetText.setText(f'Bet: {self.bet}')
         self.money -= amount
         self.oMoneyText.setText(f'Money: {self.money}')
+        return True
 
     def payout(self, amount):
         self.bet += amount
