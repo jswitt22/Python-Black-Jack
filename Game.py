@@ -68,6 +68,7 @@ class Game():
         self.numberOfPlayers = numberOfPlayers
         self.dealerIndex = len(self.oPlayerList) - 1
         self.dealerRevealed = False
+        self.roundsDealt = 0
 
         # Game text/images
         self.oPlayerIndicator = pygwidgets.DisplayText(self.window, value='^', textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
@@ -82,29 +83,6 @@ class Game():
 
     def reset(self):  # this method is called when a new shoe starts
         pass # TODO - implement shoe reshuffle
-
-    def startRound(self):
-        self.setGameState(Game.DEALING)
-
-    def dealOneCard(self):
-        Game.DEAL_SOUND.play()
-        cardToDeal = self.oShoe.getCard()
-        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
-        oCurrentPlayer.dealCard(cardToDeal)
-        currentPlayerScore = oCurrentPlayer.getScore()
-        cardDealt = oCurrentPlayer.cards[oCurrentPlayer.getNumberOfCards()-1]
-        dealer = oCurrentPlayer.player == DEALER
-        if self.gameState == Game.DEALING:
-            if not dealer and currentPlayerScore == 21:
-                oCurrentPlayer.giveBlackJack()
-                Game.WIN_SOUND.play()
-            elif dealer and oCurrentPlayer.getNumberOfCards() == 2:
-                if cardDealt.getValue() == 1 or cardDealt.getValue() == 10:
-                    self.setGameState(Game.IS_ANYONE_HOME)
-            self.nextPlayer()
-        else:
-            if not dealer and currentPlayerScore >= 21:
-                self.nextPlayer()
 
     def nextPlayer(self):
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
@@ -125,8 +103,40 @@ class Game():
                 if self.currentPlayerIndex == self.dealerIndex:
                     self.setGameState(Game.REVEALING)
             self.updateIndicator()
+        oNextPlayer = self.oPlayerList[self.currentPlayerIndex]
+        return oNextPlayer
 
-    def revealDealer(self):
+    def dealOneCard(self):
+        Game.DEAL_SOUND.play()
+        cardToDeal = self.oShoe.getCard()
+        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
+        oCurrentPlayer.dealCard(cardToDeal)
+        currentPlayerScore = oCurrentPlayer.getScore()
+        dealer = oCurrentPlayer.player == DEALER
+        return cardToDeal, oCurrentPlayer, currentPlayerScore, dealer
+
+    def readyButtonAction(self):
+        self.setGameState(Game.DEALING)
+
+    def dealButtonAction(self):
+        cardDealt, oCurrentPlayer, currentPlayerScore, dealer = self.dealOneCard()
+        if not dealer and currentPlayerScore == 21:
+            oCurrentPlayer.giveBlackJack()
+            Game.WIN_SOUND.play()
+        elif dealer and oCurrentPlayer.getNumberOfCards() == 2:
+            if cardDealt.getValue() == 1 or cardDealt.getValue() == 10:
+                self.setGameState(Game.IS_ANYONE_HOME)
+        oNextPlayer = self.nextPlayer()
+
+    def hitButtonAction(self):
+        _, _, currentPlayerScore, dealer = self.dealOneCard()
+        if not dealer and currentPlayerScore >= 21:
+            oNextPlayer = self.nextPlayer()
+
+    def standButtonAction(self):
+        oNextPlayer = self.nextPlayer()
+
+    def revealButtonAction(self):
         oDealer = self.oPlayerList[self.numberOfPlayers]
         dealerScore = oDealer.getScore()
         if not self.dealerRevealed:
@@ -139,14 +149,25 @@ class Game():
                 dealerScore = oDealer.getScore()
 
         if dealerScore >= 17:
-            self.nextPlayer()
+            oNextPlayer = self.nextPlayer()
 
-    def nextRound(self):
+    def resetButtonAction(self):
         for oPlayer in self.oPlayerList:
             oPlayer.deleteCards()
             oPlayer.notPlaying = False
         self.setGameState(Game.BETTING)
+        self.currentPlayerIndex = 0
         self.dealerRevealed = False
+
+    def checkDealerButtonAction(self):
+        oDealer = self.oPlayerList[self.numberOfPlayers]
+        DealerScore = oDealer.getScore()
+        if DealerScore == 21:
+            oDealer.revealCards()
+            self.setGameState(Game.ROUND_OVER)
+        else:
+            self.setGameState(Game.PLAYING)
+            # TODO - display text that says "Nobody's home"
 
     def setGameState(self, gameState):
         if gameState == Game.ROUND_OVER:
@@ -177,16 +198,6 @@ class Game():
             self.nextPlayer()
         if self.gameState == Game.PLAYING and (oCurrentPlayer.blackJack or oCurrentPlayer.notPlaying):
             self.nextPlayer()
-
-    def checkDealer(self):
-        oDealer = self.oPlayerList[self.numberOfPlayers]
-        DealerScore = oDealer.getScore()
-        if DealerScore == 21:
-            oDealer.revealCards()
-            self.setGameState(Game.ROUND_OVER)
-        else:
-            self.setGameState(Game.PLAYING)
-            # TODO - display text that says "Nobody's home"
 
     def payout(self):
         oDealer = self.oPlayerList[self.numberOfPlayers]

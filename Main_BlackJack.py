@@ -98,31 +98,31 @@ def main():
                 standButton.enable()
                 hitButton.enable()
                 readyButton.disable()
-                oGame.startRound()
+                oGame.readyButtonAction()
 
             if hitButton.handleEvent(event):
                 print('clicked Hit')
-                oGame.dealOneCard()
+                oGame.hitButtonAction()
 
             if standButton.handleEvent(event):
                 print('clicked Stand')
-                oGame.nextPlayer()
+                oGame.standButtonAction()
 
             if resetButton.handleEvent(event):
                 print('clicked Reset')
-                oGame.nextRound()
+                oGame.resetButtonAction()
 
             if revealButton.handleEvent(event):
                 print('clicked Reveal')
-                oGame.revealDealer()
+                oGame.revealButtonAction()
 
             if dealButton.handleEvent(event):
                 print('clicked Deal')
-                oGame.dealOneCard()
+                oGame.dealButtonAction()
 
             if checkDealerButton.handleEvent(event):
                 print('clicked CheckDealer')
-                oGame.checkDealer()
+                oGame.checkDealerButtonAction()
                 checkDealerButton.disable()
                 checkDealerButton.hide()
 
