@@ -95,9 +95,6 @@ def main():
 
             if readyButton.handleEvent(event):
                 print('clicked Ready')
-                standButton.enable()
-                hitButton.enable()
-                readyButton.disable()
                 oGame.readyButtonAction()
 
             if hitButton.handleEvent(event):
@@ -130,27 +127,25 @@ def main():
         thisFrameGameState = oGame.getGameState()
         if thisFrameGameState != lastFrameGameState:
             if thisFrameGameState == Game.BETTING:
-                disableButtons([standButton, hitButton, resetButton, revealButton, dealButton])
-                enableButtons([readyButton])
+                disableButtons([standButton, hitButton, revealButton, dealButton])
+                enableButtons([readyButton, resetButton])
             if thisFrameGameState == Game.DEALING:
-                disableButtons([standButton, hitButton, readyButton, resetButton, revealButton])
-                enableButtons([dealButton])
+                disableButtons([standButton, hitButton, readyButton, revealButton])
+                enableButtons([dealButton, resetButton])
             if thisFrameGameState == Game.IS_ANYONE_HOME:
-                disableButtons([standButton, hitButton, readyButton, resetButton, revealButton, dealButton])
-                enableButtons([checkDealerButton])
+                disableButtons([standButton, hitButton, readyButton, revealButton, dealButton])
+                enableButtons([checkDealerButton, resetButton])
                 checkDealerButton.show()
             if thisFrameGameState == Game.PLAYING:
                 disableButtons([readyButton, resetButton, revealButton, dealButton])
-                enableButtons([standButton, hitButton])
+                enableButtons([standButton, hitButton, resetButton])
             if thisFrameGameState == Game.REVEALING:
-                disableButtons([standButton, hitButton, readyButton, resetButton, dealButton])
-                enableButtons([revealButton])
+                disableButtons([standButton, hitButton, readyButton, dealButton])
+                enableButtons([revealButton, resetButton])
             if thisFrameGameState == Game.ROUND_OVER:
                 disableButtons([standButton, hitButton, readyButton, revealButton, dealButton])
-                enableButtons([resetButton, hitButton])
+                enableButtons([resetButton])
         lastFrameGameState = oGame.getGameState()
-
-        oGame.checkForSkipPlayer()
 
         # 9 - Clear the window before drawing it again
         window.fill(BLACK) # TODO - replace this with background.draw() when we have a new image for the background
