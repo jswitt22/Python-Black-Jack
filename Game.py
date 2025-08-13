@@ -218,7 +218,7 @@ class Game():
                 if oButton.handleEvent(event):
                     print(f'{player} clicked {oButton.getNickname()}')
                     playerIndex = PLAYER_LIST.index(player)
-                    if oButton.getNickname() == '-10':
+                    if oButton.getNickname() == '-10': # TODO - make this better
                         amount = -10
                     if oButton.getNickname() == '+10':
                         amount = 10
