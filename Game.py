@@ -197,6 +197,15 @@ class Game:
             self.setGameState(Game.REVEALING)
         return True
 
+    def splitButtonAction(self, oPlayer):
+        pass
+        # TODO - implement split button method
+    ''' When the player can press the split button, we need a method to split their hand into two new "players"
+        How to do this?
+        need to create a splitPlayer subclass that takes in the current player object
+        the splitPlayer subclass then can create its position based on the original player and create each hand based on the players two cards
+    '''
+
     def setGameState(self, gameState):
         if gameState == Game.ROUND_OVER:
             self.payout()
