@@ -18,13 +18,15 @@ class Player:
             top = Player.CARDS_TOP
             self.revealed = True
         left = PLAYER_LEFT_LIST[PLAYER_LIST.index(self.player)]
-        self.loc = (left, top)
+        self.locDefault = (left, top)
+        self.loc = self.locDefault
 
         self.score = 0
         self.money = money
         self.bet = 0
         self.blackJack = False
         self.notPlaying = False
+        self.split = False
 
         self.textCenterX = self.loc[0] + CARD_WIDTH/2
         self.scoreTextY = self.loc[1] + CARD_HEIGHT + 10
@@ -60,6 +62,39 @@ class Player:
         self.money -= amount
         self.oMoneyText.setText(f'Money: {self.money}')
         return True
+
+    def setBet(self, amount):
+        self.bet = amount
+        self.oBetText.setText(f'Bet: {self.bet}')
+        self.oMoneyText.setText(f'Money: {self.money}')
+
+    def splitPlayer(self):
+        if not self.increaseBet(self.bet):
+            return None
+
+        # Create split player and give card and bet
+        oSplitPlayer = Player(self.window, self.player, money=0)
+        oSplitPlayer.split = True
+        oSplitPlayer.setBet(self.bet/2)
+        self.setBet(self.bet - oSplitPlayer.bet)
+        oSplitCard = self.cards.pop()
+        oSplitPlayer.cards.append(oSplitCard)
+        oSplitPlayer.loc = (self.loc[0] + SPLIT_OFFSET, self.loc[1])
+        self.loc = (self.loc[0] - SPLIT_OFFSET, self.loc[1])
+
+        # Update and redraw both "players"
+        oSplitPlayer.cards[0].setLoc(oSplitPlayer.loc)
+        oSplitPlayer._setScore()
+        oSplitPlayer.draw()
+        self.cards[0].setLoc(self.loc)
+        self._setScore()
+        self.draw()
+
+        return oSplitPlayer
+
+    def resetLoc(self):
+        self.loc = self.locDefault
+        self.draw()
 
     def payout(self, amount):
         self.bet += amount
@@ -134,6 +169,8 @@ class Player:
 
     def centerText(self, oDisplayText):
         textX, textY, textWidth, textHeight = oDisplayText.getRect()
+        self.textCenterX = self.loc[0] + CARD_WIDTH / 2
+        self.scoreTextY = self.loc[1] + CARD_HEIGHT + 10
         oDisplayText.setLoc((self.textCenterX - textWidth/2, textY))
 
     def draw(self):

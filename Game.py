@@ -69,6 +69,7 @@ class Game:
 
         # Game variables
         self.currentPlayerIndex = 0
+        self.splitPlayerIndex = 0
         self.gameState = ''
         self.numberOfPlayers = numberOfPlayers
         self.dealerIndex = len(self.oPlayerList) - 1
@@ -136,7 +137,11 @@ class Game:
                 return
             else:
                 self.setGameState(Game.PLAYING)
-        self.nextPlayer()
+        oNewCurrentPlayer = self.nextPlayer()
+        if oNewCurrentPlayer.getNumberOfCards() == 2:
+            self.currentPlayerIndex = self.splitPlayerIndex
+            self.setGameState(Game.PLAYING)
+            self.updateIndicator()
 
     def hitButtonAction(self):
         _, _, currentPlayerScore, dealer = self.dealOneCard()
@@ -173,6 +178,7 @@ class Game:
         self.setGameState(Game.BETTING)
         self.currentPlayerIndex = 0
         self.dealerRevealed = False
+        self.mergeSplitPlayers()
 
     def checkDealerButtonAction(self):
         oDealer = self.oPlayerList[self.numberOfPlayers]
@@ -184,7 +190,7 @@ class Game:
             self.setGameState(Game.PLAYING)
             # TODO - display text that says "Nobody's home"
 
-    def doubleButtonAction(self, oPlayer):
+    def doubleButtonAction(self, oPlayer): # TODO - fix double button for split hands. currently money always comes from the original players hand onto the bet of the original hand
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         if oPlayer.player != oCurrentPlayer.player or oCurrentPlayer.getNumberOfCards() != 2:
             return False
@@ -198,13 +204,36 @@ class Game:
         return True
 
     def splitButtonAction(self, oPlayer):
-        pass
-        # TODO - implement split button method
-    ''' When the player can press the split button, we need a method to split their hand into two new "players"
-        How to do this?
-        need to create a splitPlayer subclass that takes in the current player object
-        the splitPlayer subclass then can create its position based on the original player and create each hand based on the players two cards
-    '''
+        oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
+        if oPlayer.player != oCurrentPlayer.player or oCurrentPlayer.getNumberOfCards() != 2:
+            return False
+        oSplitPlayer = oPlayer.splitPlayer()
+        self.splitPlayerIndex = self.currentPlayerIndex
+        insertIndex = self.splitPlayerIndex + 1
+        self.oPlayerList.insert(insertIndex, oSplitPlayer)
+        self.playerNames.insert(insertIndex, oSplitPlayer.player)
+        self.setGameState(Game.DEALING)
+        self.numberOfPlayers += 1
+        return True
+
+    def mergeSplitPlayers(self):
+        oLastPlayer = None
+        lastPlayerName = None
+        self.oPlayerList.reverse()
+        reversePlayerListCopy = list(self.oPlayerList)
+        for oPlayer in reversePlayerListCopy:
+            if oPlayer.player == DEALER:
+                continue
+            currentPlayerName = oPlayer.player
+            if lastPlayerName == currentPlayerName:
+                oPlayer.money += oLastPlayer.money
+                self.oPlayerList.remove(oLastPlayer)
+                self.numberOfPlayers -= 1
+                oPlayer.resetLoc()
+
+            oLastPlayer = oPlayer
+            lastPlayerName = currentPlayerName
+        self.oPlayerList.reverse()
 
     def setGameState(self, gameState):
         if gameState == Game.ROUND_OVER:
@@ -255,7 +284,7 @@ class Game:
                 if oPlayer.notPlaying:
                     oButton.disable()
                     continue
-                if oPlayer.cards == [] or oButton.buttonType != 'split':
+                if len(oPlayer.cards) < 2 or oButton.buttonType != 'split':
                     continue
                 card1Rank = oPlayer.cards[0].rank
                 card2Rank = oPlayer.cards[1].rank
@@ -264,7 +293,7 @@ class Game:
 
     def handleEvent(self, event):
         for playerName, oButtonList in self.buttonsDict.items():
-            playerIndex = PLAYER_LIST.index(playerName)
+            playerIndex = self.playerNames.index(playerName)
             oPlayer = self.oPlayerList[playerIndex]
             for oButton in oButtonList:
                 if oButton.handleEvent(event):
@@ -274,6 +303,8 @@ class Game:
                             self.doubleButtonAction(oPlayer)
                         else:
                             oPlayer.increaseBet(int(oButton.getNickname()))
+                    if oButton.buttonType == 'split':
+                        self.splitButtonAction(oPlayer)
 
     def draw(self):
         for oPlayer in self.oPlayerList:
