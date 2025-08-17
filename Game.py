@@ -92,14 +92,16 @@ class Game:
 
     def nextPlayer(self):
         notPlaying = True
+        blackJack = True
         oNextPlayer = None
-        while notPlaying:
+        while notPlaying or blackJack:
             if self.currentPlayerIndex == len(self.oPlayerList) - 1:
                 self.currentPlayerIndex = 0
             else:
                 self.currentPlayerIndex += 1
             oNextPlayer = self.oPlayerList[self.currentPlayerIndex]
             notPlaying = oNextPlayer.notPlaying
+            blackJack = oNextPlayer.blackJack
         self.updateIndicator()
         return oNextPlayer
 
@@ -137,6 +139,8 @@ class Game:
                 return
             else:
                 self.setGameState(Game.PLAYING)
+                self.nextPlayer()
+                return
         oNewCurrentPlayer = self.nextPlayer()
         if oNewCurrentPlayer.getNumberOfCards() == 2:
             self.currentPlayerIndex = self.splitPlayerIndex
