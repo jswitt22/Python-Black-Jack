@@ -44,9 +44,9 @@ PLAYER_LEFT_LIST = [1*WINDOW_WIDTH/6 - CARD_WIDTH/2,
 PLAYER_LIST = [PLAYER1, PLAYER2, PLAYER3, PLAYER4, PLAYER5, DEALER]
 
 # Cheater Cards (for debugging)
-PLAYER_CHEATS = {PLAYER1: True, PLAYER2: False, PLAYER3: False, PLAYER4: False, PLAYER5: False, DEALER: False}
-CHEATER_CARD_1 = {'Rank': 'Jack', 'Suit': 'Spades', 'Value': 10}
-CHEATER_CARD_2 = {'Rank': 'Ace', 'Suit': 'Diamonds', 'Value': 1}
+PLAYER_CHEATS = {PLAYER1: False, PLAYER2: True, PLAYER3: False, PLAYER4: False, PLAYER5: False, DEALER: False}
+CHEATER_CARD_1 = {'Rank': '8', 'Suit': 'Spades', 'Value': 8}
+CHEATER_CARD_2 = {'Rank': '8', 'Suit': 'Diamonds', 'Value': 8}
 
 # Fonts
 SCORE_FONT_SIZE = 30

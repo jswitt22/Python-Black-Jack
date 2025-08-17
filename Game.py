@@ -224,6 +224,7 @@ class Game:
         oLastPlayer = None
         lastPlayerName = None
         self.oPlayerList.reverse()
+        self.playerNames.reverse()
         reversePlayerListCopy = list(self.oPlayerList)
         for oPlayer in reversePlayerListCopy:
             if oPlayer.player == DEALER:
@@ -232,12 +233,14 @@ class Game:
             if lastPlayerName == currentPlayerName:
                 oPlayer.money += oLastPlayer.money
                 self.oPlayerList.remove(oLastPlayer)
+                self.playerNames.remove(currentPlayerName)
                 self.numberOfPlayers -= 1
                 oPlayer.resetLoc()
 
             oLastPlayer = oPlayer
             lastPlayerName = currentPlayerName
         self.oPlayerList.reverse()
+        self.playerNames.reverse()
 
     def setGameState(self, gameState):
         if gameState == Game.ROUND_OVER:
