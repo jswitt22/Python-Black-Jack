@@ -10,6 +10,7 @@ class GameButton(pygwidgets.TextButton):
         self.hiddenGameStates = hiddenGameStates
         self.revealedGameStates = revealedGameStates
         self.buttonType = buttonType
+        self.clickedCounter = 0
 
         super().__init__(window, loc, text, width, height, textColor, upColor, overColor, downColor, fontName, fontSize,
                          soundOnClick, enterToActivate, callBack, nickname, activationKeysList)

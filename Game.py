@@ -182,6 +182,9 @@ class Game:
         self.currentPlayerIndex = 0
         self.dealerRevealed = False
         self.mergeSplitPlayers()
+        for oButtonList in self.buttonsDict.values():
+            for oButton in oButtonList:
+                oButton.clickedCounter = 0
 
     def checkDealerButtonAction(self):
         oDealer = self.oPlayerList[self.numberOfPlayers]
@@ -210,7 +213,7 @@ class Game:
             self.setGameState(Game.REVEALING)
         return True
 
-    def splitButtonAction(self, oPlayer): # TODO - remove ability to split after splitting once
+    def splitButtonAction(self, oPlayer):
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         if oPlayer.player != oCurrentPlayer.player or oCurrentPlayer.getNumberOfCards() != 2:
             return False
@@ -298,7 +301,7 @@ class Game:
                     continue
                 card1Rank = oPlayer.cards[0].rank
                 card2Rank = oPlayer.cards[1].rank
-                if card1Rank != card2Rank:
+                if card1Rank != card2Rank or oButton.clickedCounter > 1:
                     oButton.disable()
 
     def handleEvent(self, event):
@@ -308,6 +311,7 @@ class Game:
             for oButton in oButtonList:
                 if oButton.handleEvent(event):
                     print(f'{playerName} clicked {oButton.getNickname()}')
+                    oButton.clickedCounter += 1
                     if oButton.buttonType == 'bet':
                         if oButton.getNickname() == 'Double':
                             self.doubleButtonAction(oPlayer)
