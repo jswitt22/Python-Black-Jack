@@ -7,7 +7,7 @@ class Player:
     DEALER_CARDS_TOP = 100
     CARDS_TOP = WINDOW_HEIGHT - CARD_HEIGHT*3
 
-    def __init__(self, window, playerName, money=500):
+    def __init__(self, window, playerName, money=500, split=False):
         self.window = window
         self.player = playerName
 
@@ -26,14 +26,20 @@ class Player:
         self.bet = 0
         self.blackJack = False
         self.notPlaying = False
-        self.split = False
+        self.split = split
 
         self.textCenterX = self.loc[0] + CARD_WIDTH/2
         self.scoreTextY = self.loc[1] + CARD_HEIGHT + 10
         self.oScoreText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.scoreTextY), str(self.score), textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
         scoreTextHeight = self.oScoreText.getRect()[3]
         self.moneyTextY = self.scoreTextY + (scoreTextHeight*1.5)*2
-        self.oMoneyText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.moneyTextY), f'Money: {self.money}', textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
+        if self.split:
+            moneyText = ''
+            justified = 'right'
+        else:
+            moneyText = f'Money: {self.money}'
+            justified = 'left'
+        self.oMoneyText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.moneyTextY), moneyText, textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE, justified=justified)
         self.betTextY = WINDOW_CENTER_Y - scoreTextHeight/2
         self.oBetText = pygwidgets.DisplayText(self.window, (self.textCenterX, self.betTextY), f'Bet: {self.bet}', textColor=TEXT_COLOR, fontSize=SCORE_FONT_SIZE)
 
@@ -74,7 +80,7 @@ class Player:
 
     def updateMoneyText(self):
         if self.split and self.money > 0:
-            self.oMoneyText.setText(f'+{self.money}')
+            self.oMoneyText.setText(f'                                  +{self.money}') # TODO - make this spacing dynamic based on base players text width
         elif not self.split:
             self.oMoneyText.setText(f'Money: {self.money}')
 
@@ -83,8 +89,7 @@ class Player:
             return None
 
         # Create split player and give card and bet
-        oSplitPlayer = Player(self.window, self.player, money=0)
-        oSplitPlayer.split = True
+        oSplitPlayer = Player(self.window, self.player, money=0, split=True)
         oSplitPlayer.setBet(self.bet/2)
         self.setBet(self.bet - oSplitPlayer.bet)
         oSplitCard = self.cards.pop()
@@ -191,8 +196,7 @@ class Player:
         self.centerText(self.oMoneyText, self.locDefault)
         self.centerText(self.oBetText, self.loc)
         if self.player != DEALER:
-            if not self.split:
-                self.oMoneyText.draw()
+            self.oMoneyText.draw()
             self.oBetText.draw()
 # End Player class
 
