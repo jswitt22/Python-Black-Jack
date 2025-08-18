@@ -171,21 +171,22 @@ class Player:
             self.revealed = False
         self.blackJack = False
 
-    def centerText(self, oDisplayText):
+    def centerText(self, oDisplayText, loc):
         textX, textY, textWidth, textHeight = oDisplayText.getRect()
-        self.textCenterX = self.loc[0] + CARD_WIDTH / 2
-        self.scoreTextY = self.loc[1] + CARD_HEIGHT + 10
+        self.textCenterX = loc[0] + CARD_WIDTH / 2
+        self.scoreTextY = loc[1] + CARD_HEIGHT + 10
         oDisplayText.setLoc((self.textCenterX - textWidth/2, textY))
 
     def draw(self):
         for card in self.cards:
             card.draw()
-        self.centerText(self.oScoreText)
+        self.centerText(self.oScoreText, self.loc)
         self.oScoreText.draw()
-        self.centerText(self.oMoneyText)
-        self.centerText(self.oBetText)
+        self.centerText(self.oMoneyText, self.locDefault)
+        self.centerText(self.oBetText, self.loc)
         if self.player != DEALER:
-            self.oMoneyText.draw()
+            if not self.split:
+                self.oMoneyText.draw()
             self.oBetText.draw()
 # End Player class
 
