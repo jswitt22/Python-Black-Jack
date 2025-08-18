@@ -77,7 +77,6 @@ class Player:
             return None
 
         # Create split player and give card and bet
-        self.split = True
         oSplitPlayer = Player(self.window, self.player, money=0)
         oSplitPlayer.split = True
         oSplitPlayer.setBet(self.bet/2)
@@ -171,7 +170,6 @@ class Player:
         if self.player == DEALER:
             self.revealed = False
         self.blackJack = False
-        self.split = False
 
     def centerText(self, oDisplayText, loc):
         textX, textY, textWidth, textHeight = oDisplayText.getRect()
