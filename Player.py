@@ -80,7 +80,7 @@ class Player:
 
     def updateMoneyText(self):
         if self.split and self.money > 0:
-            self.oMoneyText.setText(f'                                  +{self.money}') # TODO - make this spacing dynamic based on base players text width
+            self.oMoneyText.setText(f'                                        +{self.money}') # TODO - make this spacing dynamic based on base players text width
         elif not self.split:
             self.oMoneyText.setText(f'Money: {self.money}')
 
@@ -118,7 +118,10 @@ class Player:
         self.money += self.bet
         self.bet -= self.bet
         self.oBetText.setText(f'Bet: {self.bet}')
-        self.oMoneyText.setText(f'Money: {displayMoney} + {displayWinnings}')
+        if not self.split:
+            self.oMoneyText.setText(f'Money: {displayMoney} + {displayWinnings}')
+        else:
+            self.updateMoneyText()
 
     def dealCard(self, oCard):
         numberOfCards = len(self.cards)
