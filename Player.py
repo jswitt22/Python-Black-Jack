@@ -90,7 +90,7 @@ class Player:
 
         # Create split player and give card and bet
         oSplitPlayer = Player(self.window, self.player, money=0, split=True)
-        oSplitPlayer.setBet(self.bet/2)
+        oSplitPlayer.setBet(self.bet//2)
         self.setBet(self.bet - oSplitPlayer.bet)
         oSplitCard = self.cards.pop()
         oSplitPlayer.cards.append(oSplitCard)
