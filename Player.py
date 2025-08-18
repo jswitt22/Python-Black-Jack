@@ -101,12 +101,12 @@ class Player:
         self.loc = self.locDefault
         self.draw()
 
-    def payout(self, amount):
+    def payout(self, amount, payoutText=''):
         self.bet += amount
         self.money += self.bet
         self.bet -= self.bet
         self.oBetText.setText(f'Bet: {self.bet}')
-        self.oMoneyText.setText(f'Money: {self.money}')
+        self.oMoneyText.setText(f'Money: {self.money} {payoutText}')
 
     def dealCard(self, oCard):
         numberOfCards = len(self.cards)
