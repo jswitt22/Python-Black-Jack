@@ -60,17 +60,23 @@ class Player:
         self.bet += amount
         self.oBetText.setText(f'Bet: {self.bet}')
         self.money -= amount
-        self.oMoneyText.setText(f'Money: {self.money}')
+        self.updateMoneyText()
         return True
 
     def setBet(self, amount):
         self.bet = amount
         self.oBetText.setText(f'Bet: {self.bet}')
-        self.oMoneyText.setText(f'Money: {self.money}')
+        self.updateMoneyText()
 
     def addMoney(self, amount, payoutText=''):
         self.money += amount
-        self.oMoneyText.setText(f'Money: {self.money} {payoutText}')
+        self.updateMoneyText()
+
+    def updateMoneyText(self):
+        if self.split and self.money > 0:
+            self.oMoneyText.setText(f'+{self.money}')
+        elif not self.split:
+            self.oMoneyText.setText(f'Money: {self.money}')
 
     def splitPlayer(self):
         if not self.increaseBet(self.bet):
@@ -105,7 +111,7 @@ class Player:
         self.money += self.bet
         self.bet -= self.bet
         self.oBetText.setText(f'Bet: {self.bet}')
-        self.oMoneyText.setText(f'Money: {self.money} {payoutText}')
+        self.updateMoneyText()
 
     def dealCard(self, oCard):
         numberOfCards = len(self.cards)
