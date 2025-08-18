@@ -231,7 +231,7 @@ class Game:
                 continue
             currentPlayerName = oPlayer.player
             if lastPlayerName == currentPlayerName:
-                oPlayer.money += oLastPlayer.money
+                oPlayer.addMoney(oLastPlayer.money)
                 self.oPlayerList.remove(oLastPlayer)
                 self.playerNames.remove(currentPlayerName)
                 self.numberOfPlayers -= 1

@@ -68,6 +68,10 @@ class Player:
         self.oBetText.setText(f'Bet: {self.bet}')
         self.oMoneyText.setText(f'Money: {self.money}')
 
+    def addMoney(self, amount):
+        self.money += amount
+        self.oMoneyText.setText(f'Money: {self.money}')
+
     def splitPlayer(self):
         if not self.increaseBet(self.bet):
             return None
