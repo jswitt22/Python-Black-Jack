@@ -211,7 +211,7 @@ class Game:
             self.setGameState(Game.REVEALING)
         return True
 
-    def splitButtonAction(self, oPlayer):
+    def splitButtonAction(self, oPlayer): # TODO - remove ability to split after splitting once
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         if oPlayer.player != oCurrentPlayer.player or oCurrentPlayer.getNumberOfCards() != 2:
             return False
