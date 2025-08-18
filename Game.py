@@ -194,13 +194,17 @@ class Game:
             self.setGameState(Game.PLAYING)
             # TODO - display text that says "Nobody's home"
 
-    def doubleButtonAction(self, oPlayer): # TODO - fix double button for split hands. currently money always comes from the original players hand onto the bet of the original hand
+    def doubleButtonAction(self, oPlayer):
         oCurrentPlayer = self.oPlayerList[self.currentPlayerIndex]
         if oPlayer.player != oCurrentPlayer.player or oCurrentPlayer.getNumberOfCards() != 2:
             return False
-        currentBet = oPlayer.bet
+
+        currentBet = oCurrentPlayer.bet
         if not oPlayer.increaseBet(currentBet):
             return False
+        if oCurrentPlayer.split: # Pass the bet to the split player instead of base player
+            oPlayer.setBet(oPlayer.bet-currentBet)
+            oCurrentPlayer.setBet(oCurrentPlayer.bet+currentBet)
         self.dealOneCard()
         oNewCurrentPlayer = self.nextPlayer()
         if oNewCurrentPlayer.player == DEALER:
