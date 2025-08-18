@@ -112,11 +112,13 @@ class Player:
         self.draw()
 
     def payout(self, amount, payoutText=''):
+        displayMoney = self.money
         self.bet += amount
+        displayWinnings = self.bet
         self.money += self.bet
         self.bet -= self.bet
         self.oBetText.setText(f'Bet: {self.bet}')
-        self.updateMoneyText()
+        self.oMoneyText.setText(f'Money: {displayMoney} + {displayWinnings}')
 
     def dealCard(self, oCard):
         numberOfCards = len(self.cards)
@@ -180,7 +182,9 @@ class Player:
         self._setScore()
         if self.player == DEALER:
             self.revealed = False
+        self.notPlaying = False
         self.blackJack = False
+        self.updateMoneyText()
 
     def centerText(self, oDisplayText, loc):
         textX, textY, textWidth, textHeight = oDisplayText.getRect()

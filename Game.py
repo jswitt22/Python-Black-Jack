@@ -178,7 +178,6 @@ class Game:
     def resetButtonAction(self):
         for oPlayer in self.oPlayerList:
             oPlayer.deleteCards()
-            oPlayer.notPlaying = False
         self.setGameState(Game.BETTING)
         self.currentPlayerIndex = 0
         self.dealerRevealed = False
