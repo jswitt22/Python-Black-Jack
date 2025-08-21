@@ -7,6 +7,7 @@ import sys
 from Game import *
 from Constants import *
 
+# Helper Functions
 def disableButtons(buttonList):
     for TextButton in buttonList:
         TextButton.disable()
@@ -19,6 +20,7 @@ def drawList(list):
     for object in list:
         object.draw()
 
+# Main Function
 def main():
     # 2 - Define constants
     STANDARD_BUTTON_WIDTH = 120
@@ -159,6 +161,7 @@ def main():
 
         # 12 - Slow things down a bit
         clock.tick(FRAMES_PER_SECOND)
+# End Main Function
 
 if __name__ == '__main__':
     main()
