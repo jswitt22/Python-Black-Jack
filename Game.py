@@ -66,6 +66,7 @@ class Game:
                                                     playingButtonHideList, playingButtonShowList, buttonType='split', width=BET_BUTTON_WIDTH*2, height=BET_BUTTON_WIDTH)
             playerButtonList = [betIncreaseButton, betDecreaseButton, doubleButton, splitButton]
             self.buttonsDict[oPlayer.player] = playerButtonList
+            # TODO - implement insurance buttons and logic
 
         # Game variables
         self.currentPlayerIndex = 0
