@@ -91,7 +91,7 @@ class Game:
     def reset(self):  # this method is called when a new shoe starts
         pass # TODO - implement shoe reshuffle
 
-    def nextPlayer(self):
+    def nextPlayer(self): # TODO - fix bug: a split player can still hit their first hand if it was a blackjack
         notPlaying = True
         blackJack = True
         oNextPlayer = None
