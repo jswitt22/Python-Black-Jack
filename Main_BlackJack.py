@@ -67,14 +67,14 @@ def main():
     resetButton = pygwidgets.TextButton(window, (LEFT_BUTTON_X, TOP_BUTTON_Y),
                                         'Clear Cards', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
     buttonList.append(resetButton)
-    revealButton = pygwidgets.TextButton(window, (RIGHT_BUTTON_X, TOP_BUTTON_Y),
-                                         'Reveal', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
-    buttonList.append(revealButton)
-    revealButtonLeft, revealButtonTop, revealButtonWidth, revealButtonHeight = revealButton.getRect()
-    dealButtonLeft = revealButtonLeft - DEAL_BUTTON_WIDTH - MARGIN
-    dealButton = pygwidgets.TextButton(window, (dealButtonLeft, TOP_BUTTON_Y),
-                                         'Deal', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
-    buttonList.append(dealButton)
+    #revealButton = pygwidgets.TextButton(window, (RIGHT_BUTTON_X, TOP_BUTTON_Y),
+    #                                     'Reveal', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+    #buttonList.append(revealButton)
+    #revealButtonLeft, revealButtonTop, revealButtonWidth, revealButtonHeight = revealButton.getRect()
+    #dealButtonLeft = revealButtonLeft - DEAL_BUTTON_WIDTH - MARGIN
+    #dealButton = pygwidgets.TextButton(window, (dealButtonLeft, TOP_BUTTON_Y),
+    #                                     'Deal', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT)
+    #buttonList.append(dealButton)
     checkDealerButton = pygwidgets.TextButton(window, (WINDOW_CENTER_X - STANDARD_BUTTON_WIDTH/2, TOP_BUTTON_Y),
                                          'Is Anyone Home?', width=STANDARD_BUTTON_WIDTH, height=STANDARD_BUTTON_HEIGHT) # TODO - put this button in a better place
     checkDealerButton.disable()
@@ -115,11 +115,11 @@ def main():
                 print('clicked Reset')
                 oGame.resetButtonAction()
 
-            if revealButton.handleEvent(event) or event.type == REVEAL_EVENT:
+            if event.type == REVEAL_EVENT: # or revealButton.handleEvent(event)
                 print('clicked Reveal')
                 oGame.revealButtonAction()
 
-            if dealButton.handleEvent(event) or event.type == DEAL_EVENT:
+            if event.type == DEAL_EVENT: # or dealButton.handleEvent(event)
                 print('clicked Deal')
                 oGame.dealButtonAction()
 
@@ -133,29 +133,29 @@ def main():
         thisFrameGameState = oGame.getGameState()
         if thisFrameGameState != lastFrameGameState:
             if thisFrameGameState == Game.BETTING:
-                disableButtons([standButton, hitButton, revealButton, dealButton])
+                # disableButtons([standButton, hitButton, revealButton, dealButton])
                 enableButtons([readyButton, resetButton])
             if thisFrameGameState == Game.DEALING:
-                pygame.time.set_timer(DEAL_EVENT, DEAL_SPEED_MILLISECONDS) #starts the deal event timer
-                disableButtons([standButton, hitButton, readyButton, revealButton])
-                enableButtons([dealButton, resetButton])
+                pygame.time.set_timer(DEAL_EVENT, DEAL_SPEED_MILLISECONDS) # starts the deal event timer
+                disableButtons([standButton, hitButton, readyButton]) # reveal button if uncommented
+                enableButtons([resetButton]) # deal button if uncommented
             else:
                 pygame.time.set_timer(DEAL_EVENT, 0) #stops the deal event timer
             if thisFrameGameState == Game.IS_ANYONE_HOME:
-                disableButtons([standButton, hitButton, readyButton, revealButton, dealButton])
+                disableButtons([standButton, hitButton, readyButton]) # reveal and deal button if uncommented
                 enableButtons([checkDealerButton, resetButton])
                 checkDealerButton.show()
             if thisFrameGameState == Game.PLAYING:
-                disableButtons([readyButton, resetButton, revealButton, dealButton])
+                disableButtons([readyButton, resetButton]) # reveal and deal button if uncommented
                 enableButtons([standButton, hitButton, resetButton])
             if thisFrameGameState == Game.REVEALING:
                 pygame.time.set_timer(REVEAL_EVENT, REVEAL_SPEED_MILLISECONDS) #starts the reveal event timer
-                disableButtons([standButton, hitButton, readyButton, dealButton])
-                enableButtons([revealButton, resetButton])
+                disableButtons([standButton, hitButton, readyButton]) # deal button if uncommented
+                enableButtons([resetButton]) # reveal button if uncommented
             else:
                 pygame.time.set_timer(REVEAL_EVENT, 0) #stops the reveal event timer
             if thisFrameGameState == Game.ROUND_OVER:
-                disableButtons([standButton, hitButton, readyButton, revealButton, dealButton])
+                disableButtons([standButton, hitButton, readyButton]) # reveal and deal button if uncommented
                 enableButtons([resetButton])
         lastFrameGameState = oGame.getGameState()
 
