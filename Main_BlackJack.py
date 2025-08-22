@@ -100,31 +100,31 @@ def main():
                 oGame.handleEvent(event)
 
             if readyButton.handleEvent(event):
-                print('clicked Ready')
+                # print('clicked Ready')
                 oGame.readyButtonAction()
 
             if hitButton.handleEvent(event):
-                print('clicked Hit')
+                # print('clicked Hit')
                 oGame.hitButtonAction()
 
             if standButton.handleEvent(event):
-                print('clicked Stand')
+                # print('clicked Stand')
                 oGame.standButtonAction()
 
             if resetButton.handleEvent(event):
-                print('clicked Reset')
+                # print('clicked Reset')
                 oGame.resetButtonAction()
 
             if event.type == REVEAL_EVENT: # or revealButton.handleEvent(event)
-                print('clicked Reveal')
+                # print('clicked Reveal')
                 oGame.revealButtonAction()
 
             if event.type == DEAL_EVENT: # or dealButton.handleEvent(event)
-                print('clicked Deal')
+                # print('clicked Deal')
                 oGame.dealButtonAction()
 
             if checkDealerButton.handleEvent(event):
-                print('clicked CheckDealer')
+                # print('clicked CheckDealer')
                 oGame.checkDealerButtonAction()
                 checkDealerButton.disable()
                 checkDealerButton.hide()

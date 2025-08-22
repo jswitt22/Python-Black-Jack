@@ -86,7 +86,7 @@ class Game:
         Game.SHUFFLE_SOUND.play()
         self.setGameState(Game.BETTING)
 
-        self.printGameState()
+        # self.printGameState() # DEBUG
 
     def reset(self):  # this method is called when a new shoe starts
         pass # TODO - implement shoe reshuffle
@@ -311,7 +311,7 @@ class Game:
             oPlayer = self.oPlayerList[playerIndex]
             for oButton in oButtonList:
                 if oButton.handleEvent(event):
-                    print(f'{playerName} clicked {oButton.getNickname()}')
+                    # print(f'{playerName} clicked {oButton.getNickname()}') # DEBUG
                     oButton.clickedCounter += 1
                     if oButton.buttonType == 'bet':
                         if oButton.getNickname() == 'Double':
