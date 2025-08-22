@@ -1,8 +1,9 @@
 # Black Jack - Python Version
 # Main Program
-import pygame.time
+
 # 1 - Import packages
 from pygame.locals import *
+import pygame.time
 import sys
 from Game import *
 from Constants import *
