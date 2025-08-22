@@ -1,6 +1,6 @@
 # Black Jack - Python Version
 # Main Program
-
+import pygame.time
 # 1 - Import packages
 from pygame.locals import *
 import sys
@@ -32,6 +32,11 @@ def main():
     RIGHT_BUTTON_X = WINDOW_WIDTH - STANDARD_BUTTON_WIDTH - MARGIN
     LEFT_BUTTON_X = MARGIN
     FRAMES_PER_SECOND = 30
+    DEAL_SPEED_MILLISECONDS = 500
+    REVEAL_SPEED_MILLISECONDS = 1000
+    # Custom Events
+    DEAL_EVENT = pygame.event.custom_type()
+    REVEAL_EVENT = pygame.event.custom_type()
 
     # 3 - Initialize the world
     pygame.init()
@@ -109,11 +114,11 @@ def main():
                 print('clicked Reset')
                 oGame.resetButtonAction()
 
-            if revealButton.handleEvent(event):
+            if revealButton.handleEvent(event) or event.type == REVEAL_EVENT:
                 print('clicked Reveal')
                 oGame.revealButtonAction()
 
-            if dealButton.handleEvent(event):
+            if dealButton.handleEvent(event) or event.type == DEAL_EVENT:
                 print('clicked Deal')
                 oGame.dealButtonAction()
 
@@ -130,8 +135,11 @@ def main():
                 disableButtons([standButton, hitButton, revealButton, dealButton])
                 enableButtons([readyButton, resetButton])
             if thisFrameGameState == Game.DEALING:
+                pygame.time.set_timer(DEAL_EVENT, DEAL_SPEED_MILLISECONDS) #starts the deal event timer
                 disableButtons([standButton, hitButton, readyButton, revealButton])
                 enableButtons([dealButton, resetButton])
+            else:
+                pygame.time.set_timer(DEAL_EVENT, 0) #stops the deal event timer
             if thisFrameGameState == Game.IS_ANYONE_HOME:
                 disableButtons([standButton, hitButton, readyButton, revealButton, dealButton])
                 enableButtons([checkDealerButton, resetButton])
@@ -140,8 +148,11 @@ def main():
                 disableButtons([readyButton, resetButton, revealButton, dealButton])
                 enableButtons([standButton, hitButton, resetButton])
             if thisFrameGameState == Game.REVEALING:
+                pygame.time.set_timer(REVEAL_EVENT, REVEAL_SPEED_MILLISECONDS) #starts the reveal event timer
                 disableButtons([standButton, hitButton, readyButton, dealButton])
                 enableButtons([revealButton, resetButton])
+            else:
+                pygame.time.set_timer(REVEAL_EVENT, 0) #stops the reveal event timer
             if thisFrameGameState == Game.ROUND_OVER:
                 disableButtons([standButton, hitButton, readyButton, revealButton, dealButton])
                 enableButtons([resetButton])
